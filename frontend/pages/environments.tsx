@@ -70,8 +70,18 @@ export default function EnvironmentsPage() {
 
     try {
       // Strip JavaScript-style comments from JSON before parsing
+      // Only strip // comments at start of line (with optional whitespace) to avoid breaking URLs
       const cleanJson = jsonText
-        .replace(/\/\/.*$/gm, '')  // Remove single-line comments
+        .split('\n')
+        .map(line => {
+          // Remove lines that are only comments (start with optional whitespace + //)
+          const trimmed = line.trim();
+          if (trimmed.startsWith('//')) return '';
+          // Remove trailing // comments only if not inside a string
+          // Simple approach: only strip if // comes after a comma or bracket
+          return line.replace(/,\s*\/\/.*$/, ',').replace(/\[\s*\/\/.*$/, '[').replace(/\{\s*\/\/.*$/, '{');
+        })
+        .join('\n')
         .replace(/\/\*[\s\S]*?\*\//g, '');  // Remove multi-line comments
 
       const config = JSON.parse(cleanJson);

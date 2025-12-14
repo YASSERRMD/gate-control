@@ -42,8 +42,15 @@ export default function ImportPage() {
 
         try {
             // Strip JavaScript-style comments from JSON before parsing
+            // Only strip // comments at start of line to avoid breaking URLs like https://
             const cleanJson = jsonText
-                .replace(/\/\/.*$/gm, '')  // Remove single-line comments
+                .split('\n')
+                .map(line => {
+                    const trimmed = line.trim();
+                    if (trimmed.startsWith('//')) return '';
+                    return line.replace(/,\s*\/\/.*$/, ',').replace(/\[\s*\/\/.*$/, '[').replace(/\{\s*\/\/.*$/, '{');
+                })
+                .join('\n')
                 .replace(/\/\*[\s\S]*?\*\//g, '');  // Remove multi-line comments
 
             const config = JSON.parse(cleanJson);

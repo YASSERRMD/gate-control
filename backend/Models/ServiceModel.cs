@@ -17,4 +17,7 @@ public class ServiceModel
     public List<HostAndPort> Hosts { get; set; } = new();
     public List<string> Tags { get; set; } = new();
     public string? HealthEndpoint { get; set; }
+    // Service discovery support (Consul/Eureka)
+    public bool UseServiceDiscovery { get; set; }
+    public string? ServiceDiscoveryName { get; set; }
 }
