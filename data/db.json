@@ -27,6 +27,13 @@
       "baseUrl": "https://test.example.com",
       "discoveryProviderType": null,
       "settingsJson": {}
+    },
+    {
+      "id": "e29866a46376491f8abe44d9b1379517",
+      "name": "GovAE",
+      "baseUrl": "https://api.example.gov.ae",
+      "discoveryProviderType": "Consul",
+      "settingsJson": {}
     }
   ],
   "services": [
@@ -124,6 +131,22 @@
       "hosts": [
         {
           "host": "test-service",
+          "port": 443
+        }
+      ],
+      "tags": [
+        "imported"
+      ],
+      "healthEndpoint": null
+    },
+    {
+      "id": "22c19f48fc374befb592ad26acf88704",
+      "environmentId": "e29866a46376491f8abe44d9b1379517",
+      "name": "Auth Service",
+      "defaultScheme": "https",
+      "hosts": [
+        {
+          "host": "auth-service",
           "port": 443
         }
       ],
@@ -334,6 +357,33 @@
       "downstreamHostAndPorts": [
         {
           "host": "test-service",
+          "port": 443
+        }
+      ],
+      "priority": 1,
+      "requestIdKey": null,
+      "policies": {
+        "auth": null,
+        "rateLimit": null,
+        "cache": null
+      }
+    },
+    {
+      "id": "cfa0142af3d544ebacc0bed4fc28554b",
+      "environmentId": "e29866a46376491f8abe44d9b1379517",
+      "routeKey": "Auth_Login",
+      "description": "Imported from Ocelot config",
+      "isActive": true,
+      "upstreamPathTemplate": "/gateway/auth/login",
+      "upstreamMethods": [
+        "POST"
+      ],
+      "downstreamPathTemplate": "/api/auth/login",
+      "downstreamScheme": "https",
+      "downstreamServiceId": "22c19f48fc374befb592ad26acf88704",
+      "downstreamHostAndPorts": [
+        {
+          "host": "auth-service",
           "port": 443
         }
       ],
@@ -564,6 +614,42 @@
       "correlationId": "bb3d9c30-aaf5-430f-a06f-5d710977a617",
       "beforeJson": null,
       "afterJson": "{\n  \u0022id\u0022: \u0022baa1778816fe4a5e84a30872ee92f4cc\u0022,\n  \u0022environmentId\u0022: \u00220e07d7146ddf44e490fc0d3969ee0d93\u0022,\n  \u0022routeKey\u0022: \u0022api-test\u0022,\n  \u0022description\u0022: \u0022Imported from Ocelot config\u0022,\n  \u0022isActive\u0022: true,\n  \u0022upstreamPathTemplate\u0022: \u0022/api/test/{everything}\u0022,\n  \u0022upstreamMethods\u0022: [\n    \u0022GET\u0022\n  ],\n  \u0022downstreamPathTemplate\u0022: \u0022/api/test/{everything}\u0022,\n  \u0022downstreamScheme\u0022: \u0022https\u0022,\n  \u0022downstreamServiceId\u0022: \u0022cd77e699dcf7445a99838c8119b8f413\u0022,\n  \u0022downstreamHostAndPorts\u0022: [\n    {\n      \u0022host\u0022: \u0022test-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022priority\u0022: 1,\n  \u0022requestIdKey\u0022: null,\n  \u0022policies\u0022: {\n    \u0022auth\u0022: null,\n    \u0022rateLimit\u0022: null,\n    \u0022cache\u0022: null\n  }\n}"
+    },
+    {
+      "id": "d8def0c4f4c748c6887a04c4d87774b4",
+      "actor": "system",
+      "action": "EnvironmentCreated",
+      "entityType": "Environment",
+      "entityId": "e29866a46376491f8abe44d9b1379517",
+      "timestamp": "2025-12-14T13:10:19.716687Z",
+      "reason": null,
+      "correlationId": "4ad29102-44ce-4e60-83bb-8bbb63ed903a",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u0022e29866a46376491f8abe44d9b1379517\u0022,\n  \u0022name\u0022: \u0022GovAE\u0022,\n  \u0022baseUrl\u0022: \u0022https://api.example.gov.ae\u0022,\n  \u0022discoveryProviderType\u0022: \u0022Consul\u0022,\n  \u0022settingsJson\u0022: {}\n}"
+    },
+    {
+      "id": "a6deaee889f74b6c958f265e82541a6b",
+      "actor": "system",
+      "action": "ServiceCreated",
+      "entityType": "Service",
+      "entityId": "22c19f48fc374befb592ad26acf88704",
+      "timestamp": "2025-12-14T13:10:19.7408518Z",
+      "reason": null,
+      "correlationId": "3717c028-aea8-4976-b3d1-98697c2faf67",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u002222c19f48fc374befb592ad26acf88704\u0022,\n  \u0022environmentId\u0022: \u0022e29866a46376491f8abe44d9b1379517\u0022,\n  \u0022name\u0022: \u0022Auth Service\u0022,\n  \u0022defaultScheme\u0022: \u0022https\u0022,\n  \u0022hosts\u0022: [\n    {\n      \u0022host\u0022: \u0022auth-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022tags\u0022: [\n    \u0022imported\u0022\n  ],\n  \u0022healthEndpoint\u0022: null\n}"
+    },
+    {
+      "id": "599979d2640f4b7785e48cd644633f7b",
+      "actor": "system",
+      "action": "RouteCreated",
+      "entityType": "Route",
+      "entityId": "cfa0142af3d544ebacc0bed4fc28554b",
+      "timestamp": "2025-12-14T13:10:19.745142Z",
+      "reason": null,
+      "correlationId": "2579026a-969d-4c9e-9c8e-7a24772d0eb2",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u0022cfa0142af3d544ebacc0bed4fc28554b\u0022,\n  \u0022environmentId\u0022: \u0022e29866a46376491f8abe44d9b1379517\u0022,\n  \u0022routeKey\u0022: \u0022Auth_Login\u0022,\n  \u0022description\u0022: \u0022Imported from Ocelot config\u0022,\n  \u0022isActive\u0022: true,\n  \u0022upstreamPathTemplate\u0022: \u0022/gateway/auth/login\u0022,\n  \u0022upstreamMethods\u0022: [\n    \u0022POST\u0022\n  ],\n  \u0022downstreamPathTemplate\u0022: \u0022/api/auth/login\u0022,\n  \u0022downstreamScheme\u0022: \u0022https\u0022,\n  \u0022downstreamServiceId\u0022: \u002222c19f48fc374befb592ad26acf88704\u0022,\n  \u0022downstreamHostAndPorts\u0022: [\n    {\n      \u0022host\u0022: \u0022auth-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022priority\u0022: 1,\n  \u0022requestIdKey\u0022: null,\n  \u0022policies\u0022: {\n    \u0022auth\u0022: null,\n    \u0022rateLimit\u0022: null,\n    \u0022cache\u0022: null\n  }\n}"
     }
   ],
   "authenticationPolicies": [

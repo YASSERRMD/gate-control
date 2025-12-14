@@ -90,9 +90,10 @@ public class OcelotImportService
         }
         if (methods.Count == 0) methods.Add("GET");
 
-        // Parse downstream host and ports
+        // Parse downstream host and ports OR ServiceName (for service discovery)
         var hostAndPorts = new List<HostAndPort>();
         var hostsArray = routeNode["DownstreamHostAndPorts"]?.AsArray();
+        var serviceName = routeNode["ServiceName"]?.GetValue<string>();
         string? serviceId = null;
         
         if (hostsArray != null && hostsArray.Count > 0)
@@ -113,6 +114,17 @@ public class OcelotImportService
                 }
                 serviceId = serviceMap[key];
             }
+        }
+        else if (!string.IsNullOrEmpty(serviceName))
+        {
+            // Handle service discovery routes (Consul/Eureka) - no explicit hosts, uses ServiceName
+            var key = $"sd:{serviceName}";
+            if (!serviceMap.ContainsKey(key))
+            {
+                var service = CreateServiceFromServiceName(serviceName, envId);
+                serviceMap[key] = service.Id;
+            }
+            serviceId = serviceMap[key];
         }
 
         // Parse policies
@@ -190,6 +202,22 @@ public class OcelotImportService
             DefaultScheme = port == 443 ? "https" : "http",
             Hosts = new List<HostAndPort> { new() { Host = host, Port = port } },
             Tags = new List<string> { "imported" }
+        };
+        
+        return _dataStore.UpsertService(service);
+    }
+
+    private ServiceModel CreateServiceFromServiceName(string serviceName, string envId)
+    {
+        // Create a service for service discovery (Consul/Eureka) - no explicit hosts
+        var service = new ServiceModel
+        {
+            EnvironmentId = envId,
+            Name = SanitizeServiceName(serviceName),
+            DefaultScheme = "https",
+            UseServiceDiscovery = true,
+            ServiceDiscoveryName = serviceName,
+            Tags = new List<string> { "imported", "service-discovery" }
         };
         
         return _dataStore.UpsertService(service);
