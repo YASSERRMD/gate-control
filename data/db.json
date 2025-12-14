@@ -116,6 +116,7 @@
       "environmentId": "env-prod",
       "routeKey": "orders-v1",
       "description": "Orders API v1 - Main orders endpoint",
+      "isActive": true,
       "upstreamPathTemplate": "/api/v1/orders/{*everything}",
       "upstreamMethods": [
         "GET",
@@ -124,7 +125,9 @@
         "DELETE"
       ],
       "downstreamPathTemplate": "/orders/{everything}",
+      "downstreamScheme": "https",
       "downstreamServiceId": "svc-orders",
+      "downstreamHostAndPorts": null,
       "priority": 1,
       "requestIdKey": "X-Correlation-ID",
       "policies": {
@@ -150,13 +153,16 @@
       "environmentId": "env-prod",
       "routeKey": "payments-v1",
       "description": "Payments API v1 - Payment processing",
+      "isActive": true,
       "upstreamPathTemplate": "/api/v1/payments/{*everything}",
       "upstreamMethods": [
         "GET",
         "POST"
       ],
       "downstreamPathTemplate": "/payments/{everything}",
+      "downstreamScheme": "https",
       "downstreamServiceId": "svc-payments",
+      "downstreamHostAndPorts": null,
       "priority": 1,
       "requestIdKey": "X-Correlation-ID",
       "policies": {
@@ -182,6 +188,7 @@
       "environmentId": "env-prod",
       "routeKey": "customers-v1",
       "description": "Customers API v1 - Customer management",
+      "isActive": true,
       "upstreamPathTemplate": "/api/v1/customers/{*everything}",
       "upstreamMethods": [
         "GET",
@@ -191,7 +198,9 @@
         "DELETE"
       ],
       "downstreamPathTemplate": "/customers/{everything}",
+      "downstreamScheme": "https",
       "downstreamServiceId": "svc-customers",
+      "downstreamHostAndPorts": null,
       "priority": 1,
       "requestIdKey": "X-Correlation-ID",
       "policies": {
@@ -217,6 +226,7 @@
       "environmentId": "env-uat",
       "routeKey": "customers-v2",
       "description": "Customers API v2 - New customer endpoints with enhanced features",
+      "isActive": true,
       "upstreamPathTemplate": "/api/v2/customers/{*everything}",
       "upstreamMethods": [
         "GET",
@@ -226,7 +236,9 @@
         "DELETE"
       ],
       "downstreamPathTemplate": "/v2/customers/{everything}",
+      "downstreamScheme": "https",
       "downstreamServiceId": "svc-customers",
+      "downstreamHostAndPorts": null,
       "priority": 1,
       "requestIdKey": "X-Correlation-ID",
       "policies": {
@@ -252,6 +264,7 @@
       "environmentId": "env-prod",
       "routeKey": "inventory-v1",
       "description": "Inventory API v1 - Stock management",
+      "isActive": true,
       "upstreamPathTemplate": "/api/v1/inventory/{*everything}",
       "upstreamMethods": [
         "GET",
@@ -259,7 +272,9 @@
         "PUT"
       ],
       "downstreamPathTemplate": "/inventory/{everything}",
+      "downstreamScheme": "https",
       "downstreamServiceId": "svc-inventory",
+      "downstreamHostAndPorts": null,
       "priority": 1,
       "requestIdKey": "X-Correlation-ID",
       "policies": {
@@ -284,119 +299,88 @@
   "changeRequests": [
     {
       "id": "CR-1024",
+      "environmentId": "env-prod",
       "title": "Add rate limiting to /api/orders endpoint",
       "description": "Implement rate limiting to prevent abuse of the orders API endpoint",
-      "environmentId": "env-prod",
-      "status": "pending",
-      "riskLevel": "medium",
+      "status": "Published",
       "createdBy": "Alice Johnson",
       "createdAt": "2025-12-14T08:30:00Z",
-      "updatedAt": "2025-12-14T08:30:00Z",
-      "changes": {
-        "type": "route_update",
-        "routeId": "route-orders-v1",
-        "modifications": {
-          "policies": {
-            "rateLimit": {
-              "enableRateLimiting": true,
-              "period": "1m",
-              "limit": 100
-            }
-          }
-        }
-      }
+      "approvedBy": null,
+      "approvedAt": null,
+      "publishedBy": "demo-user",
+      "publishedAt": "2025-12-14T10:17:47.7614294Z",
+      "riskLevel": "medium",
+      "rollbackPlan": null,
+      "justification": null,
+      "items": []
     },
     {
       "id": "CR-1023",
+      "environmentId": "env-prod",
       "title": "Update authentication policy for payments service",
       "description": "Enhance authentication requirements for PCI compliance",
-      "environmentId": "env-prod",
       "status": "approved",
-      "riskLevel": "high",
       "createdBy": "Bob Smith",
       "createdAt": "2025-12-13T14:20:00Z",
-      "updatedAt": "2025-12-14T09:15:00Z",
       "approvedBy": "Security Admin",
       "approvedAt": "2025-12-14T09:15:00Z",
-      "changes": {
-        "type": "route_update",
-        "routeId": "route-payments-v1",
-        "modifications": {
-          "policies": {
-            "auth": {
-              "scheme": "oidc",
-              "allowedScopes": [
-                "payments.read",
-                "payments.write",
-                "payments.admin"
-              ]
-            }
-          }
-        }
-      }
+      "publishedBy": null,
+      "publishedAt": null,
+      "riskLevel": "high",
+      "rollbackPlan": null,
+      "justification": null,
+      "items": []
     },
     {
       "id": "CR-1022",
+      "environmentId": "env-uat",
       "title": "Add new route for customer API v2",
       "description": "Deploy new customer API version to UAT environment",
-      "environmentId": "env-uat",
       "status": "published",
-      "riskLevel": "low",
       "createdBy": "Carol White",
       "createdAt": "2025-12-12T10:00:00Z",
-      "updatedAt": "2025-12-13T16:45:00Z",
       "approvedBy": "Tech Lead",
       "approvedAt": "2025-12-13T11:30:00Z",
       "publishedBy": "Carol White",
       "publishedAt": "2025-12-13T16:45:00Z",
-      "changes": {
-        "type": "route_create",
-        "routeId": "route-customers-v2"
-      }
+      "riskLevel": "low",
+      "rollbackPlan": null,
+      "justification": null,
+      "items": []
     },
     {
       "id": "CR-1021",
+      "environmentId": "env-dev",
       "title": "Modify downstream path template for inventory",
       "description": "Update inventory service routing to new backend structure",
-      "environmentId": "env-dev",
       "status": "draft",
-      "riskLevel": "low",
       "createdBy": "David Brown",
       "createdAt": "2025-12-14T07:00:00Z",
-      "updatedAt": "2025-12-14T07:00:00Z",
-      "changes": {
-        "type": "route_update",
-        "routeId": "route-inventory-v1",
-        "modifications": {
-          "downstreamPathTemplate": "/v2/inventory/{everything}"
-        }
-      }
+      "approvedBy": null,
+      "approvedAt": null,
+      "publishedBy": null,
+      "publishedAt": null,
+      "riskLevel": "low",
+      "rollbackPlan": null,
+      "justification": null,
+      "items": []
     },
     {
       "id": "CR-1020",
+      "environmentId": "env-prod",
       "title": "Enable caching for customer endpoints",
       "description": "Reduce backend load by caching customer data",
-      "environmentId": "env-prod",
       "status": "published",
-      "riskLevel": "medium",
       "createdBy": "Emma Davis",
       "createdAt": "2025-12-11T09:00:00Z",
-      "updatedAt": "2025-12-14T10:30:00Z",
       "approvedBy": "Tech Lead",
       "approvedAt": "2025-12-12T14:00:00Z",
       "publishedBy": "John Doe",
       "publishedAt": "2025-12-14T10:30:00Z",
-      "changes": {
-        "type": "route_update",
-        "routeId": "route-customers-v1",
-        "modifications": {
-          "policies": {
-            "cache": {
-              "ttlSeconds": 120
-            }
-          }
-        }
-      }
+      "riskLevel": "medium",
+      "rollbackPlan": null,
+      "justification": null,
+      "items": []
     }
   ],
   "publishHistory": [
@@ -404,66 +388,96 @@
       "id": "pub-001",
       "environmentId": "env-prod",
       "changeRequestId": "CR-1020",
-      "publishedBy": "John Doe",
+      "configHash": "",
       "publishedAt": "2025-12-14T10:30:00Z",
+      "status": "success",
+      "publishedBy": "John Doe",
       "targetNodes": [
         "gateway-node-01",
         "gateway-node-02",
         "gateway-node-03"
       ],
-      "status": "success",
-      "configVersion": "v2.4.8"
+      "result": null,
+      "rollbackReference": null,
+      "validationIssues": []
     },
     {
       "id": "pub-002",
       "environmentId": "env-uat",
       "changeRequestId": "CR-1022",
-      "publishedBy": "Carol White",
+      "configHash": "",
       "publishedAt": "2025-12-13T16:45:00Z",
+      "status": "success",
+      "publishedBy": "Carol White",
       "targetNodes": [
         "gateway-uat-01",
         "gateway-uat-02"
       ],
-      "status": "success",
-      "configVersion": "v2.4.7"
+      "result": null,
+      "rollbackReference": null,
+      "validationIssues": []
     }
   ],
   "auditLogs": [
     {
       "id": "audit-001",
-      "timestamp": "2025-12-14T10:30:00Z",
       "actor": "John Doe",
       "action": "publish_config",
-      "resource": "env-prod",
-      "details": "Published configuration for CR-1020 to production",
-      "ipAddress": "192.168.1.100"
+      "entityType": "",
+      "entityId": "",
+      "timestamp": "2025-12-14T10:30:00Z",
+      "reason": null,
+      "correlationId": "c048bd29-0ffe-4572-970e-1562d672e497",
+      "beforeJson": null,
+      "afterJson": null
     },
     {
       "id": "audit-002",
-      "timestamp": "2025-12-14T09:15:00Z",
       "actor": "Security Admin",
       "action": "approve_change_request",
-      "resource": "CR-1023",
-      "details": "Approved change request for payments authentication update",
-      "ipAddress": "192.168.1.50"
+      "entityType": "",
+      "entityId": "",
+      "timestamp": "2025-12-14T09:15:00Z",
+      "reason": null,
+      "correlationId": "24a83576-91c5-4ecf-9007-f907f1d1b00b",
+      "beforeJson": null,
+      "afterJson": null
     },
     {
       "id": "audit-003",
-      "timestamp": "2025-12-14T08:30:00Z",
       "actor": "Alice Johnson",
       "action": "create_change_request",
-      "resource": "CR-1024",
-      "details": "Created new change request for orders rate limiting",
-      "ipAddress": "192.168.1.75"
+      "entityType": "",
+      "entityId": "",
+      "timestamp": "2025-12-14T08:30:00Z",
+      "reason": null,
+      "correlationId": "390802de-c5bd-43bd-b508-ab2f3857f91e",
+      "beforeJson": null,
+      "afterJson": null
     },
     {
       "id": "audit-004",
-      "timestamp": "2025-12-13T16:45:00Z",
       "actor": "Carol White",
       "action": "publish_config",
-      "resource": "env-uat",
-      "details": "Published configuration for CR-1022 to UAT",
-      "ipAddress": "192.168.1.80"
+      "entityType": "",
+      "entityId": "",
+      "timestamp": "2025-12-13T16:45:00Z",
+      "reason": null,
+      "correlationId": "c184d9ea-9895-48ed-b8e9-c811e30e04b8",
+      "beforeJson": null,
+      "afterJson": null
+    },
+    {
+      "id": "9392c03f288447179411b83e71495ee7",
+      "actor": "demo-user",
+      "action": "ChangeRequestStatus",
+      "entityType": "ChangeRequest",
+      "entityId": "CR-1024",
+      "timestamp": "2025-12-14T10:17:47.7614749Z",
+      "reason": null,
+      "correlationId": "246debdb-98b6-4e4c-8c5f-411989a9f740",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u0022CR-1024\u0022,\n  \u0022environmentId\u0022: \u0022env-prod\u0022,\n  \u0022title\u0022: \u0022Add rate limiting to /api/orders endpoint\u0022,\n  \u0022description\u0022: \u0022Implement rate limiting to prevent abuse of the orders API endpoint\u0022,\n  \u0022status\u0022: \u0022Published\u0022,\n  \u0022createdBy\u0022: \u0022Alice Johnson\u0022,\n  \u0022createdAt\u0022: \u00222025-12-14T08:30:00Z\u0022,\n  \u0022approvedBy\u0022: null,\n  \u0022approvedAt\u0022: null,\n  \u0022publishedBy\u0022: \u0022demo-user\u0022,\n  \u0022publishedAt\u0022: \u00222025-12-14T10:17:47.7614294Z\u0022,\n  \u0022riskLevel\u0022: \u0022medium\u0022,\n  \u0022rollbackPlan\u0022: null,\n  \u0022justification\u0022: null,\n  \u0022items\u0022: []\n}"
     }
   ],
   "authenticationPolicies": [
@@ -618,7 +632,7 @@
         "Authorization": "Bearer test-token",
         "Content-Type": "application/json"
       },
-      "body": "{\"customerId\": \"123\", \"items\": []}",
+      "body": "{\u0022customerId\u0022: \u0022123\u0022, \u0022items\u0022: []}",
       "expectedStatus": 201
     }
   ],

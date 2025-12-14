@@ -59,6 +59,84 @@ public class DataStore
     public IReadOnlyCollection<JsonObject> Roles => _data.Roles;
     public JsonObject? Settings => _data.Settings;
 
+    // Add methods for advanced features
+    public JsonObject AddAuthenticationPolicy(JsonObject policy)
+    {
+        lock (_lock)
+        {
+            policy["id"] = $"auth-{Guid.NewGuid().ToString()[..8]}";
+            _data.AuthenticationPolicies.Add(policy);
+            Persist();
+            return policy;
+        }
+    }
+
+    public JsonObject AddRateLimitPolicy(JsonObject policy)
+    {
+        lock (_lock)
+        {
+            policy["id"] = $"rate-{Guid.NewGuid().ToString()[..8]}";
+            _data.RateLimitPolicies.Add(policy);
+            Persist();
+            return policy;
+        }
+    }
+
+    public JsonObject AddCachingPolicy(JsonObject policy)
+    {
+        lock (_lock)
+        {
+            policy["id"] = $"cache-{Guid.NewGuid().ToString()[..8]}";
+            _data.CachingPolicies.Add(policy);
+            Persist();
+            return policy;
+        }
+    }
+
+    public JsonObject AddQosPolicy(JsonObject policy)
+    {
+        lock (_lock)
+        {
+            policy["id"] = $"qos-{Guid.NewGuid().ToString()[..8]}";
+            _data.QosPolicies.Add(policy);
+            Persist();
+            return policy;
+        }
+    }
+
+    public JsonObject AddLoadBalancer(JsonObject lb)
+    {
+        lock (_lock)
+        {
+            lb["id"] = $"lb-{Guid.NewGuid().ToString()[..8]}";
+            _data.LoadBalancers.Add(lb);
+            Persist();
+            return lb;
+        }
+    }
+
+    public JsonObject AddUser(JsonObject user)
+    {
+        lock (_lock)
+        {
+            user["id"] = $"user-{Guid.NewGuid().ToString()[..8]}";
+            _data.Users.Add(user);
+            Persist();
+            return user;
+        }
+    }
+
+    public JsonObject AddRole(JsonObject role)
+    {
+        lock (_lock)
+        {
+            role["id"] = $"role-{Guid.NewGuid().ToString()[..8]}";
+            _data.Roles.Add(role);
+            Persist();
+            return role;
+        }
+    }
+
 
     public EnvironmentModel UpsertEnvironment(EnvironmentModel model)
     {
