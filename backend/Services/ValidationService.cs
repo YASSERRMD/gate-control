@@ -40,7 +40,7 @@ public class ValidationService
 
         var duplicateGroups = routes
             .SelectMany(r => r.UpstreamMethods.DefaultIfEmpty("ANY"), (route, method) => new { route, method = method ?? "ANY" })
-            .GroupBy(x => new { x.route.UpstreamPathTemplate, Method = x.method }, StringComparer.OrdinalIgnoreCase)
+            .GroupBy(x => new PathMethodKey(x.route.UpstreamPathTemplate, x.method), PathMethodKeyComparer.Instance)
             .Where(g => g.Count() > 1);
 
         foreach (var dup in duplicateGroups)
@@ -123,5 +123,25 @@ public class ValidationService
         var hashBytes = sha.ComputeHash(Encoding.UTF8.GetBytes(json));
         report.ConfigHash = Convert.ToHexString(hashBytes);
         return report;
+    }
+
+    private record struct PathMethodKey(string Path, string Method);
+
+    private sealed class PathMethodKeyComparer : IEqualityComparer<PathMethodKey>
+    {
+        public static PathMethodKeyComparer Instance { get; } = new();
+
+        public bool Equals(PathMethodKey x, PathMethodKey y)
+        {
+            return string.Equals(x.Path, y.Path, StringComparison.OrdinalIgnoreCase)
+                   && string.Equals(x.Method, y.Method, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public int GetHashCode(PathMethodKey obj)
+        {
+            var pathHash = StringComparer.OrdinalIgnoreCase.GetHashCode(obj.Path ?? string.Empty);
+            var methodHash = StringComparer.OrdinalIgnoreCase.GetHashCode(obj.Method ?? string.Empty);
+            return HashCode.Combine(pathHash, methodHash);
+        }
     }
 }
