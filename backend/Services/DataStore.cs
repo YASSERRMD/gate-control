@@ -17,8 +17,17 @@ public class DataStore
 
     public DataStore(IHostEnvironment environment)
     {
-        _dbPath = Path.GetFullPath(Path.Combine(environment.ContentRootPath, "../data/db.json"));
+        // Use /app/data/db.json in Docker, or ../data/db.json locally
+        var dataPath = Path.Combine(environment.ContentRootPath, "data", "db.json");
+        if (!File.Exists(dataPath))
+        {
+            // Fallback to parent directory for local development
+            dataPath = Path.GetFullPath(Path.Combine(environment.ContentRootPath, "../data/db.json"));
+        }
+        
+        _dbPath = dataPath;
         Directory.CreateDirectory(Path.GetDirectoryName(_dbPath)!);
+        
         if (File.Exists(_dbPath))
         {
             var text = File.ReadAllText(_dbPath);
@@ -36,6 +45,20 @@ public class DataStore
     public IReadOnlyCollection<ChangeRequest> ChangeRequests => _data.ChangeRequests;
     public IReadOnlyCollection<PublishRecord> PublishHistory => _data.PublishHistory;
     public IReadOnlyCollection<AuditLogEntry> AuditLogs => _data.AuditLogs;
+    
+    // Advanced Features
+    public IReadOnlyCollection<JsonObject> AuthenticationPolicies => _data.AuthenticationPolicies;
+    public IReadOnlyCollection<JsonObject> RateLimitPolicies => _data.RateLimitPolicies;
+    public IReadOnlyCollection<JsonObject> CachingPolicies => _data.CachingPolicies;
+    public IReadOnlyCollection<JsonObject> QosPolicies => _data.QosPolicies;
+    public IReadOnlyCollection<JsonObject> LoadBalancers => _data.LoadBalancers;
+    public IReadOnlyCollection<JsonObject> TestCases => _data.TestCases;
+    public IReadOnlyCollection<JsonObject> GatewayHealth => _data.GatewayHealth;
+    public JsonObject? Metrics => _data.Metrics;
+    public IReadOnlyCollection<JsonObject> Users => _data.Users;
+    public IReadOnlyCollection<JsonObject> Roles => _data.Roles;
+    public JsonObject? Settings => _data.Settings;
+
 
     public EnvironmentModel UpsertEnvironment(EnvironmentModel model)
     {

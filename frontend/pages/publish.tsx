@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Layout } from '../components/Layout';
+import Layout from '../components/Layout';
 import { apiGet, apiPost } from '../lib/api';
 
 interface Environment { id: string; name: string; }
@@ -57,7 +57,7 @@ export default function PublishPage() {
   };
 
   return (
-    <Layout title="Publish" description="Validate, publish, and review history for gateway configs.">
+    <Layout title="Publish" subtitle="Validate, publish, and review history for gateway configs">
       <div className="card">
         <h3>Select environment</h3>
         <select value={environmentId} onChange={(e) => setEnvironmentId(e.target.value)}>

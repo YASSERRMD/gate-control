@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react';
-import { Layout } from '../components/Layout';
+import Layout from '../components/Layout';
 import { apiGet, apiPost, apiPut } from '../lib/api';
 
 interface ChangeRequestItem {
@@ -61,7 +61,7 @@ export default function ChangeRequestsPage() {
   };
 
   return (
-    <Layout title="Change requests" description="Draft, approve, and publish gateway changes.">
+    <Layout title="Change Requests" subtitle="Draft, approve, and publish gateway changes">
       <div className="grid">
         <div className="card">
           <h3>New change request</h3>

@@ -1,6 +1,20 @@
 {
   "environments": [
     {
+      "id": "env-prod",
+      "name": "Production",
+      "baseUrl": "https://api.production.com",
+      "discoveryProviderType": "static",
+      "settingsJson": {}
+    },
+    {
+      "id": "env-uat",
+      "name": "UAT",
+      "baseUrl": "https://api.uat.com",
+      "discoveryProviderType": "static",
+      "settingsJson": {}
+    },
+    {
       "id": "env-dev",
       "name": "Dev",
       "baseUrl": "https://dev.api.local",
@@ -10,35 +24,823 @@
   ],
   "services": [
     {
-      "id": "svc-gateway",
-      "environmentId": "env-dev",
+      "id": "svc-orders",
+      "environmentId": "env-prod",
       "name": "Orders Service",
       "defaultScheme": "https",
       "hosts": [
-        { "host": "orders.internal", "port": 443 }
+        {
+          "host": "orders.internal.prod",
+          "port": 443
+        }
       ],
-      "tags": ["orders", "core"],
+      "tags": [
+        "orders",
+        "core"
+      ],
+      "healthEndpoint": "/health"
+    },
+    {
+      "id": "svc-payments",
+      "environmentId": "env-prod",
+      "name": "Payments Service",
+      "defaultScheme": "https",
+      "hosts": [
+        {
+          "host": "payments.internal.prod",
+          "port": 443
+        }
+      ],
+      "tags": [
+        "payments",
+        "core",
+        "pci"
+      ],
+      "healthEndpoint": "/health"
+    },
+    {
+      "id": "svc-customers",
+      "environmentId": "env-prod",
+      "name": "Customers Service",
+      "defaultScheme": "https",
+      "hosts": [
+        {
+          "host": "customers.internal.prod",
+          "port": 443
+        }
+      ],
+      "tags": [
+        "customers",
+        "core"
+      ],
+      "healthEndpoint": "/health"
+    },
+    {
+      "id": "svc-inventory",
+      "environmentId": "env-prod",
+      "name": "Inventory Service",
+      "defaultScheme": "https",
+      "hosts": [
+        {
+          "host": "inventory.internal.prod",
+          "port": 443
+        }
+      ],
+      "tags": [
+        "inventory",
+        "warehouse"
+      ],
+      "healthEndpoint": "/health"
+    },
+    {
+      "id": "svc-notifications",
+      "environmentId": "env-prod",
+      "name": "Notifications Service",
+      "defaultScheme": "https",
+      "hosts": [
+        {
+          "host": "notifications.internal.prod",
+          "port": 443
+        }
+      ],
+      "tags": [
+        "notifications",
+        "messaging"
+      ],
       "healthEndpoint": "/health"
     }
   ],
   "routes": [
     {
-      "id": "route-orders",
-      "environmentId": "env-dev",
+      "id": "route-orders-v1",
+      "environmentId": "env-prod",
       "routeKey": "orders-v1",
-      "description": "Proxy orders API",
-      "upstreamPathTemplate": "/api/orders/{*everything}",
-      "upstreamMethods": ["GET", "POST", "PUT", "DELETE"],
+      "description": "Orders API v1 - Main orders endpoint",
+      "upstreamPathTemplate": "/api/v1/orders/{*everything}",
+      "upstreamMethods": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
       "downstreamPathTemplate": "/orders/{everything}",
-      "downstreamServiceId": "svc-gateway",
+      "downstreamServiceId": "svc-orders",
       "priority": 1,
       "requestIdKey": "X-Correlation-ID",
       "policies": {
-        "auth": { "scheme": "oidc", "allowedScopes": ["orders.read", "orders.write"] },
-        "rateLimit": { "enableRateLimiting": true, "period": "1m", "limit": 100 },
-        "cache": { "ttlSeconds": 60 }
+        "auth": {
+          "scheme": "oidc",
+          "allowedScopes": [
+            "orders.read",
+            "orders.write"
+          ]
+        },
+        "rateLimit": {
+          "enableRateLimiting": true,
+          "period": "1m",
+          "limit": 100
+        },
+        "cache": {
+          "ttlSeconds": 60
+        }
+      }
+    },
+    {
+      "id": "route-payments-v1",
+      "environmentId": "env-prod",
+      "routeKey": "payments-v1",
+      "description": "Payments API v1 - Payment processing",
+      "upstreamPathTemplate": "/api/v1/payments/{*everything}",
+      "upstreamMethods": [
+        "GET",
+        "POST"
+      ],
+      "downstreamPathTemplate": "/payments/{everything}",
+      "downstreamServiceId": "svc-payments",
+      "priority": 1,
+      "requestIdKey": "X-Correlation-ID",
+      "policies": {
+        "auth": {
+          "scheme": "oidc",
+          "allowedScopes": [
+            "payments.read",
+            "payments.write"
+          ]
+        },
+        "rateLimit": {
+          "enableRateLimiting": true,
+          "period": "1m",
+          "limit": 50
+        },
+        "cache": {
+          "ttlSeconds": 0
+        }
+      }
+    },
+    {
+      "id": "route-customers-v1",
+      "environmentId": "env-prod",
+      "routeKey": "customers-v1",
+      "description": "Customers API v1 - Customer management",
+      "upstreamPathTemplate": "/api/v1/customers/{*everything}",
+      "upstreamMethods": [
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE"
+      ],
+      "downstreamPathTemplate": "/customers/{everything}",
+      "downstreamServiceId": "svc-customers",
+      "priority": 1,
+      "requestIdKey": "X-Correlation-ID",
+      "policies": {
+        "auth": {
+          "scheme": "oidc",
+          "allowedScopes": [
+            "customers.read",
+            "customers.write"
+          ]
+        },
+        "rateLimit": {
+          "enableRateLimiting": true,
+          "period": "1m",
+          "limit": 200
+        },
+        "cache": {
+          "ttlSeconds": 120
+        }
+      }
+    },
+    {
+      "id": "route-customers-v2",
+      "environmentId": "env-uat",
+      "routeKey": "customers-v2",
+      "description": "Customers API v2 - New customer endpoints with enhanced features",
+      "upstreamPathTemplate": "/api/v2/customers/{*everything}",
+      "upstreamMethods": [
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE"
+      ],
+      "downstreamPathTemplate": "/v2/customers/{everything}",
+      "downstreamServiceId": "svc-customers",
+      "priority": 1,
+      "requestIdKey": "X-Correlation-ID",
+      "policies": {
+        "auth": {
+          "scheme": "oidc",
+          "allowedScopes": [
+            "customers.read",
+            "customers.write"
+          ]
+        },
+        "rateLimit": {
+          "enableRateLimiting": true,
+          "period": "1m",
+          "limit": 200
+        },
+        "cache": {
+          "ttlSeconds": 120
+        }
+      }
+    },
+    {
+      "id": "route-inventory-v1",
+      "environmentId": "env-prod",
+      "routeKey": "inventory-v1",
+      "description": "Inventory API v1 - Stock management",
+      "upstreamPathTemplate": "/api/v1/inventory/{*everything}",
+      "upstreamMethods": [
+        "GET",
+        "POST",
+        "PUT"
+      ],
+      "downstreamPathTemplate": "/inventory/{everything}",
+      "downstreamServiceId": "svc-inventory",
+      "priority": 1,
+      "requestIdKey": "X-Correlation-ID",
+      "policies": {
+        "auth": {
+          "scheme": "oidc",
+          "allowedScopes": [
+            "inventory.read",
+            "inventory.write"
+          ]
+        },
+        "rateLimit": {
+          "enableRateLimiting": true,
+          "period": "1m",
+          "limit": 150
+        },
+        "cache": {
+          "ttlSeconds": 30
+        }
       }
     }
   ],
-  "changeRequests": []
+  "changeRequests": [
+    {
+      "id": "CR-1024",
+      "title": "Add rate limiting to /api/orders endpoint",
+      "description": "Implement rate limiting to prevent abuse of the orders API endpoint",
+      "environmentId": "env-prod",
+      "status": "pending",
+      "riskLevel": "medium",
+      "createdBy": "Alice Johnson",
+      "createdAt": "2025-12-14T08:30:00Z",
+      "updatedAt": "2025-12-14T08:30:00Z",
+      "changes": {
+        "type": "route_update",
+        "routeId": "route-orders-v1",
+        "modifications": {
+          "policies": {
+            "rateLimit": {
+              "enableRateLimiting": true,
+              "period": "1m",
+              "limit": 100
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "CR-1023",
+      "title": "Update authentication policy for payments service",
+      "description": "Enhance authentication requirements for PCI compliance",
+      "environmentId": "env-prod",
+      "status": "approved",
+      "riskLevel": "high",
+      "createdBy": "Bob Smith",
+      "createdAt": "2025-12-13T14:20:00Z",
+      "updatedAt": "2025-12-14T09:15:00Z",
+      "approvedBy": "Security Admin",
+      "approvedAt": "2025-12-14T09:15:00Z",
+      "changes": {
+        "type": "route_update",
+        "routeId": "route-payments-v1",
+        "modifications": {
+          "policies": {
+            "auth": {
+              "scheme": "oidc",
+              "allowedScopes": [
+                "payments.read",
+                "payments.write",
+                "payments.admin"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "CR-1022",
+      "title": "Add new route for customer API v2",
+      "description": "Deploy new customer API version to UAT environment",
+      "environmentId": "env-uat",
+      "status": "published",
+      "riskLevel": "low",
+      "createdBy": "Carol White",
+      "createdAt": "2025-12-12T10:00:00Z",
+      "updatedAt": "2025-12-13T16:45:00Z",
+      "approvedBy": "Tech Lead",
+      "approvedAt": "2025-12-13T11:30:00Z",
+      "publishedBy": "Carol White",
+      "publishedAt": "2025-12-13T16:45:00Z",
+      "changes": {
+        "type": "route_create",
+        "routeId": "route-customers-v2"
+      }
+    },
+    {
+      "id": "CR-1021",
+      "title": "Modify downstream path template for inventory",
+      "description": "Update inventory service routing to new backend structure",
+      "environmentId": "env-dev",
+      "status": "draft",
+      "riskLevel": "low",
+      "createdBy": "David Brown",
+      "createdAt": "2025-12-14T07:00:00Z",
+      "updatedAt": "2025-12-14T07:00:00Z",
+      "changes": {
+        "type": "route_update",
+        "routeId": "route-inventory-v1",
+        "modifications": {
+          "downstreamPathTemplate": "/v2/inventory/{everything}"
+        }
+      }
+    },
+    {
+      "id": "CR-1020",
+      "title": "Enable caching for customer endpoints",
+      "description": "Reduce backend load by caching customer data",
+      "environmentId": "env-prod",
+      "status": "published",
+      "riskLevel": "medium",
+      "createdBy": "Emma Davis",
+      "createdAt": "2025-12-11T09:00:00Z",
+      "updatedAt": "2025-12-14T10:30:00Z",
+      "approvedBy": "Tech Lead",
+      "approvedAt": "2025-12-12T14:00:00Z",
+      "publishedBy": "John Doe",
+      "publishedAt": "2025-12-14T10:30:00Z",
+      "changes": {
+        "type": "route_update",
+        "routeId": "route-customers-v1",
+        "modifications": {
+          "policies": {
+            "cache": {
+              "ttlSeconds": 120
+            }
+          }
+        }
+      }
+    }
+  ],
+  "publishHistory": [
+    {
+      "id": "pub-001",
+      "environmentId": "env-prod",
+      "changeRequestId": "CR-1020",
+      "publishedBy": "John Doe",
+      "publishedAt": "2025-12-14T10:30:00Z",
+      "targetNodes": [
+        "gateway-node-01",
+        "gateway-node-02",
+        "gateway-node-03"
+      ],
+      "status": "success",
+      "configVersion": "v2.4.8"
+    },
+    {
+      "id": "pub-002",
+      "environmentId": "env-uat",
+      "changeRequestId": "CR-1022",
+      "publishedBy": "Carol White",
+      "publishedAt": "2025-12-13T16:45:00Z",
+      "targetNodes": [
+        "gateway-uat-01",
+        "gateway-uat-02"
+      ],
+      "status": "success",
+      "configVersion": "v2.4.7"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "audit-001",
+      "timestamp": "2025-12-14T10:30:00Z",
+      "actor": "John Doe",
+      "action": "publish_config",
+      "resource": "env-prod",
+      "details": "Published configuration for CR-1020 to production",
+      "ipAddress": "192.168.1.100"
+    },
+    {
+      "id": "audit-002",
+      "timestamp": "2025-12-14T09:15:00Z",
+      "actor": "Security Admin",
+      "action": "approve_change_request",
+      "resource": "CR-1023",
+      "details": "Approved change request for payments authentication update",
+      "ipAddress": "192.168.1.50"
+    },
+    {
+      "id": "audit-003",
+      "timestamp": "2025-12-14T08:30:00Z",
+      "actor": "Alice Johnson",
+      "action": "create_change_request",
+      "resource": "CR-1024",
+      "details": "Created new change request for orders rate limiting",
+      "ipAddress": "192.168.1.75"
+    },
+    {
+      "id": "audit-004",
+      "timestamp": "2025-12-13T16:45:00Z",
+      "actor": "Carol White",
+      "action": "publish_config",
+      "resource": "env-uat",
+      "details": "Published configuration for CR-1022 to UAT",
+      "ipAddress": "192.168.1.80"
+    }
+  ],
+  "authenticationPolicies": [
+    {
+      "id": "auth-001",
+      "name": "OAuth2 Standard",
+      "scheme": "oauth2",
+      "provider": "Auth0",
+      "authority": "https://auth.example.com",
+      "allowedScopes": [
+        "api.read",
+        "api.write"
+      ],
+      "requireHttps": true,
+      "enabled": true
+    },
+    {
+      "id": "auth-002",
+      "name": "OIDC Enterprise",
+      "scheme": "oidc",
+      "provider": "Azure AD",
+      "authority": "https://login.microsoftonline.com/tenant-id",
+      "allowedScopes": [
+        "openid",
+        "profile",
+        "email"
+      ],
+      "requireHttps": true,
+      "enabled": true
+    },
+    {
+      "id": "auth-003",
+      "name": "JWT Bearer",
+      "scheme": "jwt",
+      "issuer": "https://api.example.com",
+      "audience": "api-gateway",
+      "secretKey": "***REDACTED***",
+      "enabled": true
+    }
+  ],
+  "rateLimitPolicies": [
+    {
+      "id": "rl-001",
+      "name": "Standard API Limit",
+      "period": "1m",
+      "limit": 100,
+      "clientIdHeader": "X-Client-ID",
+      "enabled": true,
+      "appliedRoutes": [
+        "route-orders-v1",
+        "route-customers-v1"
+      ]
+    },
+    {
+      "id": "rl-002",
+      "name": "Premium API Limit",
+      "period": "1m",
+      "limit": 500,
+      "clientIdHeader": "X-Client-ID",
+      "enabled": true,
+      "appliedRoutes": []
+    },
+    {
+      "id": "rl-003",
+      "name": "Payment Strict Limit",
+      "period": "1m",
+      "limit": 50,
+      "clientIdHeader": "X-Client-ID",
+      "enabled": true,
+      "appliedRoutes": [
+        "route-payments-v1"
+      ]
+    }
+  ],
+  "cachingPolicies": [
+    {
+      "id": "cache-001",
+      "name": "Short-lived Cache",
+      "ttlSeconds": 60,
+      "region": "default",
+      "varyByQueryString": true,
+      "varyByHeader": [
+        "Accept-Language"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "cache-002",
+      "name": "Long-lived Cache",
+      "ttlSeconds": 3600,
+      "region": "static",
+      "varyByQueryString": false,
+      "varyByHeader": [],
+      "enabled": true
+    }
+  ],
+  "qosPolicies": [
+    {
+      "id": "qos-001",
+      "name": "Standard Circuit Breaker",
+      "exceptionsAllowedBeforeBreaking": 5,
+      "durationOfBreakSeconds": 30,
+      "timeoutSeconds": 10,
+      "enabled": true
+    },
+    {
+      "id": "qos-002",
+      "name": "Aggressive Circuit Breaker",
+      "exceptionsAllowedBeforeBreaking": 3,
+      "durationOfBreakSeconds": 60,
+      "timeoutSeconds": 5,
+      "enabled": true
+    }
+  ],
+  "loadBalancers": [
+    {
+      "id": "lb-001",
+      "name": "Round Robin",
+      "type": "RoundRobin",
+      "serviceId": "svc-orders",
+      "enabled": true
+    },
+    {
+      "id": "lb-002",
+      "name": "Least Connection",
+      "type": "LeastConnection",
+      "serviceId": "svc-payments",
+      "enabled": true
+    }
+  ],
+  "testCases": [
+    {
+      "id": "test-001",
+      "name": "Get Orders List",
+      "routeId": "route-orders-v1",
+      "method": "GET",
+      "path": "/api/v1/orders",
+      "headers": {
+        "Authorization": "Bearer test-token",
+        "Content-Type": "application/json"
+      },
+      "body": null,
+      "expectedStatus": 200
+    },
+    {
+      "id": "test-002",
+      "name": "Create Order",
+      "routeId": "route-orders-v1",
+      "method": "POST",
+      "path": "/api/v1/orders",
+      "headers": {
+        "Authorization": "Bearer test-token",
+        "Content-Type": "application/json"
+      },
+      "body": "{\"customerId\": \"123\", \"items\": []}",
+      "expectedStatus": 201
+    }
+  ],
+  "gatewayHealth": [
+    {
+      "nodeId": "gateway-node-01",
+      "status": "healthy",
+      "uptime": "15d 4h 23m",
+      "requestsPerSecond": 1250,
+      "errorRate": 0.02,
+      "lastHealthCheck": "2025-12-14T11:35:00Z",
+      "version": "v2.4.8"
+    },
+    {
+      "nodeId": "gateway-node-02",
+      "status": "healthy",
+      "uptime": "15d 4h 20m",
+      "requestsPerSecond": 1180,
+      "errorRate": 0.01,
+      "lastHealthCheck": "2025-12-14T11:35:00Z",
+      "version": "v2.4.8"
+    },
+    {
+      "nodeId": "gateway-node-03",
+      "status": "degraded",
+      "uptime": "2d 8h 15m",
+      "requestsPerSecond": 890,
+      "errorRate": 0.15,
+      "lastHealthCheck": "2025-12-14T11:35:00Z",
+      "version": "v2.4.8"
+    }
+  ],
+  "metrics": {
+    "throughput": [
+      {
+        "timestamp": "2025-12-14T11:00:00Z",
+        "requestsPerSecond": 3200
+      },
+      {
+        "timestamp": "2025-12-14T11:05:00Z",
+        "requestsPerSecond": 3450
+      },
+      {
+        "timestamp": "2025-12-14T11:10:00Z",
+        "requestsPerSecond": 3100
+      },
+      {
+        "timestamp": "2025-12-14T11:15:00Z",
+        "requestsPerSecond": 3600
+      },
+      {
+        "timestamp": "2025-12-14T11:20:00Z",
+        "requestsPerSecond": 3300
+      },
+      {
+        "timestamp": "2025-12-14T11:25:00Z",
+        "requestsPerSecond": 3500
+      },
+      {
+        "timestamp": "2025-12-14T11:30:00Z",
+        "requestsPerSecond": 3400
+      },
+      {
+        "timestamp": "2025-12-14T11:35:00Z",
+        "requestsPerSecond": 3320
+      }
+    ],
+    "latency": {
+      "p50": 45,
+      "p95": 120,
+      "p99": 250
+    },
+    "errorRates": [
+      {
+        "route": "route-orders-v1",
+        "errorRate": 0.02
+      },
+      {
+        "route": "route-payments-v1",
+        "errorRate": 0.01
+      },
+      {
+        "route": "route-customers-v1",
+        "errorRate": 0.03
+      },
+      {
+        "route": "route-inventory-v1",
+        "errorRate": 0.05
+      }
+    ],
+    "topRoutes": [
+      {
+        "route": "route-orders-v1",
+        "requests": 125000
+      },
+      {
+        "route": "route-customers-v1",
+        "requests": 98000
+      },
+      {
+        "route": "route-payments-v1",
+        "requests": 45000
+      },
+      {
+        "route": "route-inventory-v1",
+        "requests": 32000
+      }
+    ]
+  },
+  "users": [
+    {
+      "id": "user-001",
+      "username": "admin",
+      "email": "admin@example.com",
+      "fullName": "Admin User",
+      "role": "admin",
+      "status": "active",
+      "lastLogin": "2025-12-14T10:30:00Z",
+      "createdAt": "2024-01-15T08:00:00Z"
+    },
+    {
+      "id": "user-002",
+      "username": "alice.johnson",
+      "email": "alice.johnson@example.com",
+      "fullName": "Alice Johnson",
+      "role": "developer",
+      "status": "active",
+      "lastLogin": "2025-12-14T09:15:00Z",
+      "createdAt": "2024-03-20T10:00:00Z"
+    },
+    {
+      "id": "user-003",
+      "username": "bob.smith",
+      "email": "bob.smith@example.com",
+      "fullName": "Bob Smith",
+      "role": "approver",
+      "status": "active",
+      "lastLogin": "2025-12-14T08:45:00Z",
+      "createdAt": "2024-02-10T14:30:00Z"
+    },
+    {
+      "id": "user-004",
+      "username": "carol.white",
+      "email": "carol.white@example.com",
+      "fullName": "Carol White",
+      "role": "developer",
+      "status": "active",
+      "lastLogin": "2025-12-13T16:45:00Z",
+      "createdAt": "2024-04-05T09:00:00Z"
+    }
+  ],
+  "roles": [
+    {
+      "id": "role-001",
+      "name": "admin",
+      "displayName": "Administrator",
+      "permissions": [
+        "read",
+        "write",
+        "approve",
+        "publish",
+        "delete",
+        "manage_users"
+      ],
+      "description": "Full system access"
+    },
+    {
+      "id": "role-002",
+      "name": "developer",
+      "displayName": "Developer",
+      "permissions": [
+        "read",
+        "write"
+      ],
+      "description": "Can create and edit configurations"
+    },
+    {
+      "id": "role-003",
+      "name": "approver",
+      "displayName": "Approver",
+      "permissions": [
+        "read",
+        "approve"
+      ],
+      "description": "Can review and approve change requests"
+    },
+    {
+      "id": "role-004",
+      "name": "viewer",
+      "displayName": "Viewer",
+      "permissions": [
+        "read"
+      ],
+      "description": "Read-only access"
+    }
+  ],
+  "settings": {
+    "general": {
+      "systemName": "Ocelot Gateway Admin",
+      "defaultEnvironment": "env-prod",
+      "timezone": "UTC",
+      "dateFormat": "YYYY-MM-DD HH:mm:ss"
+    },
+    "notifications": {
+      "emailEnabled": true,
+      "slackEnabled": true,
+      "slackWebhook": "https://hooks.slack.com/services/***",
+      "notifyOnApproval": true,
+      "notifyOnPublish": true,
+      "notifyOnFailure": true
+    },
+    "security": {
+      "sessionTimeout": 3600,
+      "requireMfa": false,
+      "passwordMinLength": 12,
+      "passwordRequireSpecialChars": true
+    },
+    "gateway": {
+      "defaultTimeout": 30,
+      "maxRetries": 3,
+      "enableMetrics": true,
+      "metricsRetentionDays": 30
+    }
+  }
 }

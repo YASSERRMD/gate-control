@@ -33,3 +33,83 @@ export async function apiPut<T>(path: string, body: unknown): Promise<T> {
   }
   return res.json();
 }
+
+export async function apiDelete(path: string): Promise<void> {
+  const res = await fetch(`${API_BASE}${path}`, {
+    method: 'DELETE'
+  });
+  if (!res.ok) {
+    throw new Error(`DELETE ${path} failed: ${res.status}`);
+  }
+}
+
+// Type definitions
+export interface Environment {
+  id: string;
+  name: string;
+  baseUrl: string;
+  discoveryProviderType: string;
+  settingsJson: any;
+}
+
+export interface Service {
+  id: string;
+  environmentId: string;
+  name: string;
+  defaultScheme: string;
+  hosts: { host: string; port: number }[];
+  tags: string[];
+  healthEndpoint: string;
+}
+
+export interface Route {
+  id: string;
+  environmentId: string;
+  routeKey: string;
+  description: string;
+  upstreamPathTemplate: string;
+  upstreamMethods: string[];
+  downstreamPathTemplate: string;
+  downstreamServiceId: string;
+  priority: number;
+  requestIdKey: string;
+  policies: any;
+}
+
+export interface ChangeRequest {
+  id: string;
+  title: string;
+  description: string;
+  environmentId: string;
+  status: string;
+  riskLevel: string;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+  approvedBy?: string;
+  approvedAt?: string;
+  publishedBy?: string;
+  publishedAt?: string;
+  changes: any;
+}
+
+export interface PublishHistory {
+  id: string;
+  environmentId: string;
+  changeRequestId: string;
+  publishedBy: string;
+  publishedAt: string;
+  targetNodes: string[];
+  status: string;
+  configVersion: string;
+}
+
+export interface AuditLog {
+  id: string;
+  timestamp: string;
+  actor: string;
+  action: string;
+  resource: string;
+  details: string;
+  ipAddress: string;
+}

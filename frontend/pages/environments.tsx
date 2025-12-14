@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react';
-import { Layout } from '../components/Layout';
+import Layout from '../components/Layout';
 import { apiGet, apiPost } from '../lib/api';
 
 interface Environment {
@@ -34,7 +34,7 @@ export default function EnvironmentsPage() {
   };
 
   return (
-    <Layout title="Environments" description="Define gateways for Dev, UAT, Prod, and more.">
+    <Layout title="Environments Management" subtitle="Define gateways for Dev, UAT, Prod, and more">
       <div className="grid">
         <div className="card">
           <h3>Create environment</h3>

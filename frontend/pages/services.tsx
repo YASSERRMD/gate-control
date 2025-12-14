@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react';
-import { Layout } from '../components/Layout';
+import Layout from '../components/Layout';
 import { apiGet, apiPost } from '../lib/api';
 
 interface Environment { id: string; name: string; }
@@ -56,7 +56,7 @@ export default function ServicesPage() {
   };
 
   return (
-    <Layout title="Services" description="Register downstream services to reuse across routes.">
+    <Layout title="Services Management" subtitle="Register downstream services to reuse across routes">
       <div className="grid">
         <div className="card">
           <h3>New service</h3>
