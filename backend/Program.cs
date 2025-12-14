@@ -1,3 +1,4 @@
+using System.Text.Json.Nodes;
 using GateControl.Api.Models;
 using GateControl.Api.Services;
 
@@ -27,6 +28,7 @@ builder.Services.AddSingleton<OcelotGenerator>();
 builder.Services.AddSingleton<ValidationService>();
 builder.Services.AddSingleton<PublisherService>();
 builder.Services.AddSingleton<ObservabilityService>();
+builder.Services.AddSingleton<OcelotImportService>();
 
 var app = builder.Build();
 
@@ -172,21 +174,72 @@ app.MapGet("/api/audit-logs", (DataStore store) => Results.Ok(store.AuditLogs.Or
 app.MapGet("/api/observability/overview", (ObservabilityService observability) => Results.Ok(observability.Overview()))
     .WithTags("Observability");
 
+// Import Endpoints
+app.MapPost("/api/import/ocelot", async (HttpContext ctx, OcelotImportService importService) => {
+    var request = await ctx.Request.ReadFromJsonAsync<OcelotImportRequest>();
+    if (request?.Config == null) return Results.BadRequest("Missing 'config' field with Ocelot JSON");
+    
+    try
+    {
+        var result = importService.Import(request.Config, request.EnvironmentName ?? "Imported");
+        return Results.Ok(result);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+}).WithTags("Import");
+
 // Advanced Features Endpoints
 app.MapGet("/api/authenticationPolicies", (DataStore store) => Results.Ok(store.AuthenticationPolicies))
     .WithTags("Policies");
 
+app.MapPost("/api/authenticationPolicies", async (HttpContext ctx, DataStore store) => {
+    var policy = await ctx.Request.ReadFromJsonAsync<JsonObject>();
+    if (policy == null) return Results.BadRequest();
+    var created = store.AddAuthenticationPolicy(policy);
+    return Results.Created($"/api/authenticationPolicies/{created["id"]}", created);
+}).WithTags("Policies");
+
 app.MapGet("/api/rateLimitPolicies", (DataStore store) => Results.Ok(store.RateLimitPolicies))
     .WithTags("Policies");
+
+app.MapPost("/api/rateLimitPolicies", async (HttpContext ctx, DataStore store) => {
+    var policy = await ctx.Request.ReadFromJsonAsync<JsonObject>();
+    if (policy == null) return Results.BadRequest();
+    var created = store.AddRateLimitPolicy(policy);
+    return Results.Created($"/api/rateLimitPolicies/{created["id"]}", created);
+}).WithTags("Policies");
 
 app.MapGet("/api/cachingPolicies", (DataStore store) => Results.Ok(store.CachingPolicies))
     .WithTags("Policies");
 
+app.MapPost("/api/cachingPolicies", async (HttpContext ctx, DataStore store) => {
+    var policy = await ctx.Request.ReadFromJsonAsync<JsonObject>();
+    if (policy == null) return Results.BadRequest();
+    var created = store.AddCachingPolicy(policy);
+    return Results.Created($"/api/cachingPolicies/{created["id"]}", created);
+}).WithTags("Policies");
+
 app.MapGet("/api/qosPolicies", (DataStore store) => Results.Ok(store.QosPolicies))
     .WithTags("Policies");
 
+app.MapPost("/api/qosPolicies", async (HttpContext ctx, DataStore store) => {
+    var policy = await ctx.Request.ReadFromJsonAsync<JsonObject>();
+    if (policy == null) return Results.BadRequest();
+    var created = store.AddQosPolicy(policy);
+    return Results.Created($"/api/qosPolicies/{created["id"]}", created);
+}).WithTags("Policies");
+
 app.MapGet("/api/loadBalancers", (DataStore store) => Results.Ok(store.LoadBalancers))
     .WithTags("Load Balancing");
+
+app.MapPost("/api/loadBalancers", async (HttpContext ctx, DataStore store) => {
+    var lb = await ctx.Request.ReadFromJsonAsync<JsonObject>();
+    if (lb == null) return Results.BadRequest();
+    var created = store.AddLoadBalancer(lb);
+    return Results.Created($"/api/loadBalancers/{created["id"]}", created);
+}).WithTags("Load Balancing");
 
 app.MapGet("/api/testCases", (DataStore store) => Results.Ok(store.TestCases))
     .WithTags("Testing");
@@ -200,8 +253,22 @@ app.MapGet("/api/metrics", (DataStore store) => Results.Ok(store.Metrics))
 app.MapGet("/api/users", (DataStore store) => Results.Ok(store.Users))
     .WithTags("Administration");
 
+app.MapPost("/api/users", async (HttpContext ctx, DataStore store) => {
+    var user = await ctx.Request.ReadFromJsonAsync<JsonObject>();
+    if (user == null) return Results.BadRequest();
+    var created = store.AddUser(user);
+    return Results.Created($"/api/users/{created["id"]}", created);
+}).WithTags("Administration");
+
 app.MapGet("/api/roles", (DataStore store) => Results.Ok(store.Roles))
     .WithTags("Administration");
+
+app.MapPost("/api/roles", async (HttpContext ctx, DataStore store) => {
+    var role = await ctx.Request.ReadFromJsonAsync<JsonObject>();
+    if (role == null) return Results.BadRequest();
+    var created = store.AddRole(role);
+    return Results.Created($"/api/roles/{created["id"]}", created);
+}).WithTags("Administration");
 
 app.MapGet("/api/settings", (DataStore store) => Results.Ok(store.Settings))
     .WithTags("Administration");

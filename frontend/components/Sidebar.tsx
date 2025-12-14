@@ -62,6 +62,12 @@ export default function Sidebar() {
                 { path: '/roles', label: 'Roles & Permissions', icon: 'fa-user-shield' },
                 { path: '/settings', label: 'Settings', icon: 'fa-cog' }
             ]
+        },
+        {
+            title: 'Tools',
+            items: [
+                { path: '/import', label: 'Import Config', icon: 'fa-file-import' }
+            ]
         }
     ];
 
