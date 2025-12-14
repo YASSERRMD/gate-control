@@ -61,28 +61,39 @@ export default function ChangeRequestsPage() {
   };
 
   return (
-    <Layout title="Change Requests" subtitle="Draft, approve, and publish gateway changes">
+    <Layout title="Change Requests" subtitle="Manage configuration change workflows">
       <div className="grid">
         <div className="card">
-          <h3>New change request</h3>
+          <h3>New Change Request</h3>
           <form onSubmit={submit}>
-            <label>
-              Environment
-              <select value={form.environmentId} onChange={(e) => setForm({ ...form, environmentId: e.target.value })}>
+            <div className="form-group">
+              <label>Environment</label>
+              <select
+                value={form.environmentId}
+                onChange={(e) => setForm({ ...form, environmentId: e.target.value })}
+              >
                 {environments.map((env) => (
                   <option key={env.id} value={env.id}>{env.name}</option>
                 ))}
               </select>
-            </label>
-            <label>
-              Title
-              <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required />
-            </label>
-            <label>
-              Description
-              <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
-            </label>
-            <button type="submit">Save request</button>
+            </div>
+            <div className="form-group">
+              <label>Title</label>
+              <input
+                value={form.title}
+                onChange={(e) => setForm({ ...form, title: e.target.value })}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Description</label>
+              <textarea
+                value={form.description}
+                onChange={(e) => setForm({ ...form, description: e.target.value })}
+                rows={3}
+              />
+            </div>
+            <button type="submit" className="btn-primary">Save request</button>
           </form>
         </div>
         <div className="card">

@@ -39,31 +39,26 @@ export default function EnvironmentsPage() {
         <div className="card">
           <h3>Create environment</h3>
           <form onSubmit={submit}>
-            <label>
-              Name
+            <div className="form-group">
+              <label>Name</label>
               <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
-            </label>
-            <label>
-              Base URL
-              <input
-                value={form.baseUrl}
-                onChange={(e) => setForm({ ...form, baseUrl: e.target.value })}
-                placeholder="https://api.example.com"
-                required
-              />
-            </label>
-            <label>
-              Discovery Provider
+            </div>
+            <div className="form-group">
+              <label>Base URL</label>
+              <input value={form.baseUrl} onChange={(e) => setForm({ ...form, baseUrl: e.target.value })} placeholder="https://api.example.com" required />
+            </div>
+            <div className="form-group">
+              <label>Discovery Provider</label>
               <select
                 value={form.discoveryProviderType}
                 onChange={(e) => setForm({ ...form, discoveryProviderType: e.target.value })}
               >
-                <option value="static">Static</option>
-                <option value="consul">Consul</option>
-                <option value="eureka">Eureka</option>
+                <option value="Static">Static</option>
+                <option value="Consul">Consul</option>
+                <option value="Eureka">Eureka</option>
               </select>
-            </label>
-            <button type="submit" disabled={loading}>{loading ? 'Saving...' : 'Save environment'}</button>
+            </div>
+            <button type="submit" className="btn-primary" disabled={loading}>{loading ? 'Saving...' : 'Save environment'}</button>
           </form>
         </div>
         <div className="card">
