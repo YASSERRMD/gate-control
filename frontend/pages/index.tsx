@@ -23,6 +23,7 @@ export default function Home() {
             <li><Link href="/services">Service catalog</Link></li>
             <li><Link href="/routes">Route builder</Link></li>
             <li><Link href="/change-requests">Change requests & approvals</Link></li>
+            <li><Link href="/observability">Observability overview</Link></li>
           </ul>
         </div>
       </div>

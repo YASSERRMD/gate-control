@@ -19,6 +19,7 @@ export function Layout({ title, description, children }: Props) {
           <Link href="/services">Services</Link>
           <Link href="/routes">Routes</Link>
           <Link href="/change-requests">Change Requests</Link>
+          <Link href="/observability">Observability</Link>
         </nav>
       </header>
       {children}
