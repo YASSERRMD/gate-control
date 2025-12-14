@@ -977,9 +977,26 @@ body.dark-mode .card {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: 2fr 1fr;
   gap: 25px;
   margin-bottom: 25px;
+}
+
+/* Make grid responsive */
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Card table overflow */
+.card {
+  overflow: hidden;
+}
+
+.card table {
+  min-width: 100%;
+  overflow-x: auto;
 }
 
 .card h3 {

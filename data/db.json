@@ -34,6 +34,20 @@
       "baseUrl": "https://api.example.gov.ae",
       "discoveryProviderType": "Consul",
       "settingsJson": {}
+    },
+    {
+      "id": "751304f9489a4932a33097cb7cadb7f9",
+      "name": "Imported",
+      "baseUrl": "https://api.example.gov.ae",
+      "discoveryProviderType": "Consul",
+      "settingsJson": {}
+    },
+    {
+      "id": "19354803355b4883bec6ff4a10efbc02",
+      "name": "GovAE",
+      "baseUrl": "https://api.example.gov.ae",
+      "discoveryProviderType": "Consul",
+      "settingsJson": {}
     }
   ],
   "services": [
@@ -52,7 +66,9 @@
         "orders",
         "core"
       ],
-      "healthEndpoint": "/health"
+      "healthEndpoint": "/health",
+      "useServiceDiscovery": false,
+      "serviceDiscoveryName": null
     },
     {
       "id": "svc-payments",
@@ -70,7 +86,9 @@
         "core",
         "pci"
       ],
-      "healthEndpoint": "/health"
+      "healthEndpoint": "/health",
+      "useServiceDiscovery": false,
+      "serviceDiscoveryName": null
     },
     {
       "id": "svc-customers",
@@ -87,7 +105,9 @@
         "customers",
         "core"
       ],
-      "healthEndpoint": "/health"
+      "healthEndpoint": "/health",
+      "useServiceDiscovery": false,
+      "serviceDiscoveryName": null
     },
     {
       "id": "svc-inventory",
@@ -104,7 +124,9 @@
         "inventory",
         "warehouse"
       ],
-      "healthEndpoint": "/health"
+      "healthEndpoint": "/health",
+      "useServiceDiscovery": false,
+      "serviceDiscoveryName": null
     },
     {
       "id": "svc-notifications",
@@ -121,7 +143,9 @@
         "notifications",
         "messaging"
       ],
-      "healthEndpoint": "/health"
+      "healthEndpoint": "/health",
+      "useServiceDiscovery": false,
+      "serviceDiscoveryName": null
     },
     {
       "id": "cd77e699dcf7445a99838c8119b8f413",
@@ -137,7 +161,9 @@
       "tags": [
         "imported"
       ],
-      "healthEndpoint": null
+      "healthEndpoint": null,
+      "useServiceDiscovery": false,
+      "serviceDiscoveryName": null
     },
     {
       "id": "22c19f48fc374befb592ad26acf88704",
@@ -153,7 +179,153 @@
       "tags": [
         "imported"
       ],
-      "healthEndpoint": null
+      "healthEndpoint": null,
+      "useServiceDiscovery": false,
+      "serviceDiscoveryName": null
+    },
+    {
+      "id": "99a7d984e39e43a4b9a440fcdc76b804",
+      "environmentId": "751304f9489a4932a33097cb7cadb7f9",
+      "name": "Auth Service",
+      "defaultScheme": "https",
+      "hosts": [
+        {
+          "host": "auth-service",
+          "port": 443
+        }
+      ],
+      "tags": [
+        "imported"
+      ],
+      "healthEndpoint": null,
+      "useServiceDiscovery": false,
+      "serviceDiscoveryName": null
+    },
+    {
+      "id": "c3b26ad63cf04a32b898728f91c6cc05",
+      "environmentId": "751304f9489a4932a33097cb7cadb7f9",
+      "name": "User Service",
+      "defaultScheme": "https",
+      "hosts": [
+        {
+          "host": "user-service",
+          "port": 443
+        }
+      ],
+      "tags": [
+        "imported"
+      ],
+      "healthEndpoint": null,
+      "useServiceDiscovery": false,
+      "serviceDiscoveryName": null
+    },
+    {
+      "id": "642a808fae624187b8554bf9e69ec0e5",
+      "environmentId": "751304f9489a4932a33097cb7cadb7f9",
+      "name": "Document Service",
+      "defaultScheme": "https",
+      "hosts": [
+        {
+          "host": "document-service",
+          "port": 443
+        }
+      ],
+      "tags": [
+        "imported"
+      ],
+      "healthEndpoint": null,
+      "useServiceDiscovery": false,
+      "serviceDiscoveryName": null
+    },
+    {
+      "id": "b5d3393361404197b4f3cbe27e469214",
+      "environmentId": "751304f9489a4932a33097cb7cadb7f9",
+      "name": "Payment Service",
+      "defaultScheme": "https",
+      "hosts": [
+        {
+          "host": "payment-service",
+          "port": 443
+        }
+      ],
+      "tags": [
+        "imported"
+      ],
+      "healthEndpoint": null,
+      "useServiceDiscovery": false,
+      "serviceDiscoveryName": null
+    },
+    {
+      "id": "e5cdd1b1a27c484a9146e4fafa9d295c",
+      "environmentId": "751304f9489a4932a33097cb7cadb7f9",
+      "name": "Admin Service",
+      "defaultScheme": "https",
+      "hosts": [
+        {
+          "host": "admin-service",
+          "port": 443
+        }
+      ],
+      "tags": [
+        "imported"
+      ],
+      "healthEndpoint": null,
+      "useServiceDiscovery": false,
+      "serviceDiscoveryName": null
+    },
+    {
+      "id": "c028ba4f026e406bbd1df012f26f4cb2",
+      "environmentId": "751304f9489a4932a33097cb7cadb7f9",
+      "name": "Localhost",
+      "defaultScheme": "http",
+      "hosts": [
+        {
+          "host": "localhost",
+          "port": 5001
+        }
+      ],
+      "tags": [
+        "imported"
+      ],
+      "healthEndpoint": null,
+      "useServiceDiscovery": false,
+      "serviceDiscoveryName": null
+    },
+    {
+      "id": "c0c4529e62594f1a9ebf8bf930da077d",
+      "environmentId": "19354803355b4883bec6ff4a10efbc02",
+      "name": "Auth Service",
+      "defaultScheme": "https",
+      "hosts": [
+        {
+          "host": "auth-service",
+          "port": 443
+        }
+      ],
+      "tags": [
+        "imported"
+      ],
+      "healthEndpoint": null,
+      "useServiceDiscovery": false,
+      "serviceDiscoveryName": null
+    },
+    {
+      "id": "f80cf02050694171a690e1e31330b175",
+      "environmentId": "19354803355b4883bec6ff4a10efbc02",
+      "name": "Payment Service",
+      "defaultScheme": "https",
+      "hosts": [
+        {
+          "host": "payment-service",
+          "port": 443
+        }
+      ],
+      "tags": [
+        "imported"
+      ],
+      "healthEndpoint": null,
+      "useServiceDiscovery": false,
+      "serviceDiscoveryName": null
     }
   ],
   "routes": [
@@ -384,6 +556,365 @@
       "downstreamHostAndPorts": [
         {
           "host": "auth-service",
+          "port": 443
+        }
+      ],
+      "priority": 1,
+      "requestIdKey": null,
+      "policies": {
+        "auth": null,
+        "rateLimit": null,
+        "cache": null
+      }
+    },
+    {
+      "id": "2865cd3b44d64983a57db3f5f922d87a",
+      "environmentId": "751304f9489a4932a33097cb7cadb7f9",
+      "routeKey": "Auth_Login",
+      "description": "Imported from Ocelot config",
+      "isActive": true,
+      "upstreamPathTemplate": "/gateway/auth/login",
+      "upstreamMethods": [
+        "POST"
+      ],
+      "downstreamPathTemplate": "/api/auth/login",
+      "downstreamScheme": "https",
+      "downstreamServiceId": "99a7d984e39e43a4b9a440fcdc76b804",
+      "downstreamHostAndPorts": [
+        {
+          "host": "auth-service",
+          "port": 443
+        }
+      ],
+      "priority": 1,
+      "requestIdKey": null,
+      "policies": {
+        "auth": {
+          "scheme": "Bearer",
+          "allowedScopes": []
+        },
+        "rateLimit": {
+          "enableRateLimiting": true,
+          "period": "1m",
+          "limit": 30
+        },
+        "cache": null
+      }
+    },
+    {
+      "id": "ba1f85d4098a488598186260bd9ef442",
+      "environmentId": "751304f9489a4932a33097cb7cadb7f9",
+      "routeKey": "Auth_Refresh",
+      "description": "Imported from Ocelot config",
+      "isActive": true,
+      "upstreamPathTemplate": "/gateway/auth/refresh",
+      "upstreamMethods": [
+        "POST"
+      ],
+      "downstreamPathTemplate": "/api/auth/refresh",
+      "downstreamScheme": "https",
+      "downstreamServiceId": "99a7d984e39e43a4b9a440fcdc76b804",
+      "downstreamHostAndPorts": [
+        {
+          "host": "auth-service",
+          "port": 443
+        }
+      ],
+      "priority": 1,
+      "requestIdKey": null,
+      "policies": {
+        "auth": null,
+        "rateLimit": null,
+        "cache": null
+      }
+    },
+    {
+      "id": "760eb03655b74495ba02575f37fe412d",
+      "environmentId": "751304f9489a4932a33097cb7cadb7f9",
+      "routeKey": "User_GetById",
+      "description": "Imported from Ocelot config",
+      "isActive": true,
+      "upstreamPathTemplate": "/gateway/users/{userId}",
+      "upstreamMethods": [
+        "GET"
+      ],
+      "downstreamPathTemplate": "/api/users/{userId}",
+      "downstreamScheme": "https",
+      "downstreamServiceId": "c3b26ad63cf04a32b898728f91c6cc05",
+      "downstreamHostAndPorts": [
+        {
+          "host": "user-service",
+          "port": 443
+        }
+      ],
+      "priority": 1,
+      "requestIdKey": null,
+      "policies": {
+        "auth": {
+          "scheme": "Bearer",
+          "allowedScopes": [
+            "users.read"
+          ]
+        },
+        "rateLimit": null,
+        "cache": {
+          "ttlSeconds": 60
+        }
+      }
+    },
+    {
+      "id": "e5e7a7ef2b79422aaeee4c6f162228bf",
+      "environmentId": "751304f9489a4932a33097cb7cadb7f9",
+      "routeKey": "User_Create",
+      "description": "Imported from Ocelot config",
+      "isActive": true,
+      "upstreamPathTemplate": "/gateway/users",
+      "upstreamMethods": [
+        "POST"
+      ],
+      "downstreamPathTemplate": "/api/users",
+      "downstreamScheme": "https",
+      "downstreamServiceId": "c3b26ad63cf04a32b898728f91c6cc05",
+      "downstreamHostAndPorts": [
+        {
+          "host": "user-service",
+          "port": 443
+        }
+      ],
+      "priority": 1,
+      "requestIdKey": null,
+      "policies": {
+        "auth": {
+          "scheme": "Bearer",
+          "allowedScopes": [
+            "users.write"
+          ]
+        },
+        "rateLimit": null,
+        "cache": null
+      }
+    },
+    {
+      "id": "fd644e9d846b4bf9a29c0f0dd72e7946",
+      "environmentId": "751304f9489a4932a33097cb7cadb7f9",
+      "routeKey": "Document_Download",
+      "description": "Imported from Ocelot config",
+      "isActive": true,
+      "upstreamPathTemplate": "/gateway/documents/{docId}/download",
+      "upstreamMethods": [
+        "GET"
+      ],
+      "downstreamPathTemplate": "/api/documents/{docId}/download",
+      "downstreamScheme": "https",
+      "downstreamServiceId": "642a808fae624187b8554bf9e69ec0e5",
+      "downstreamHostAndPorts": [
+        {
+          "host": "document-service",
+          "port": 443
+        }
+      ],
+      "priority": 1,
+      "requestIdKey": null,
+      "policies": {
+        "auth": {
+          "scheme": "Bearer",
+          "allowedScopes": [
+            "documents.read"
+          ]
+        },
+        "rateLimit": null,
+        "cache": null
+      }
+    },
+    {
+      "id": "1753ec8139234e46875e49acc0e8ffe1",
+      "environmentId": "751304f9489a4932a33097cb7cadb7f9",
+      "routeKey": "Document_Upload",
+      "description": "Imported from Ocelot config",
+      "isActive": true,
+      "upstreamPathTemplate": "/gateway/documents/upload",
+      "upstreamMethods": [
+        "POST"
+      ],
+      "downstreamPathTemplate": "/api/documents/upload",
+      "downstreamScheme": "https",
+      "downstreamServiceId": "642a808fae624187b8554bf9e69ec0e5",
+      "downstreamHostAndPorts": [
+        {
+          "host": "document-service",
+          "port": 443
+        }
+      ],
+      "priority": 1,
+      "requestIdKey": "X-Document-Request-Id",
+      "policies": {
+        "auth": null,
+        "rateLimit": null,
+        "cache": null
+      }
+    },
+    {
+      "id": "77546e93cf1740769da64386108a0137",
+      "environmentId": "751304f9489a4932a33097cb7cadb7f9",
+      "routeKey": "Payment_Initiate",
+      "description": "Imported from Ocelot config",
+      "isActive": true,
+      "upstreamPathTemplate": "/gateway/payments/initiate",
+      "upstreamMethods": [
+        "POST"
+      ],
+      "downstreamPathTemplate": "/api/payments/initiate",
+      "downstreamScheme": "https",
+      "downstreamServiceId": "b5d3393361404197b4f3cbe27e469214",
+      "downstreamHostAndPorts": [
+        {
+          "host": "payment-service",
+          "port": 443
+        }
+      ],
+      "priority": 1,
+      "requestIdKey": null,
+      "policies": {
+        "auth": null,
+        "rateLimit": {
+          "enableRateLimiting": true,
+          "period": "1m",
+          "limit": 10
+        },
+        "cache": null
+      }
+    },
+    {
+      "id": "99b1a4a029b045548f2e79771f0b5322",
+      "environmentId": "751304f9489a4932a33097cb7cadb7f9",
+      "routeKey": "Payment_Status",
+      "description": "Imported from Ocelot config",
+      "isActive": true,
+      "upstreamPathTemplate": "/gateway/payments/{paymentId}/status",
+      "upstreamMethods": [
+        "GET"
+      ],
+      "downstreamPathTemplate": "/api/payments/{paymentId}/status",
+      "downstreamScheme": "https",
+      "downstreamServiceId": "b5d3393361404197b4f3cbe27e469214",
+      "downstreamHostAndPorts": [
+        {
+          "host": "payment-service",
+          "port": 443
+        }
+      ],
+      "priority": 1,
+      "requestIdKey": null,
+      "policies": {
+        "auth": null,
+        "rateLimit": null,
+        "cache": null
+      }
+    },
+    {
+      "id": "9b1b45354baa46f2a58db6e23a7af362",
+      "environmentId": "751304f9489a4932a33097cb7cadb7f9",
+      "routeKey": "Admin_AuditLogs",
+      "description": "Imported from Ocelot config",
+      "isActive": true,
+      "upstreamPathTemplate": "/gateway/admin/audit-logs",
+      "upstreamMethods": [
+        "GET"
+      ],
+      "downstreamPathTemplate": "/api/admin/audit-logs",
+      "downstreamScheme": "https",
+      "downstreamServiceId": "e5cdd1b1a27c484a9146e4fafa9d295c",
+      "downstreamHostAndPorts": [
+        {
+          "host": "admin-service",
+          "port": 443
+        }
+      ],
+      "priority": 1,
+      "requestIdKey": null,
+      "policies": {
+        "auth": {
+          "scheme": "Bearer",
+          "allowedScopes": [
+            "admin.read"
+          ]
+        },
+        "rateLimit": null,
+        "cache": null
+      }
+    },
+    {
+      "id": "0a99353b8f62496d97312d39037ae632",
+      "environmentId": "751304f9489a4932a33097cb7cadb7f9",
+      "routeKey": "Health_Check",
+      "description": "Imported from Ocelot config",
+      "isActive": true,
+      "upstreamPathTemplate": "/gateway/health",
+      "upstreamMethods": [
+        "GET"
+      ],
+      "downstreamPathTemplate": "/health",
+      "downstreamScheme": "http",
+      "downstreamServiceId": "c028ba4f026e406bbd1df012f26f4cb2",
+      "downstreamHostAndPorts": [
+        {
+          "host": "localhost",
+          "port": 5001
+        }
+      ],
+      "priority": 1,
+      "requestIdKey": null,
+      "policies": {
+        "auth": null,
+        "rateLimit": null,
+        "cache": null
+      }
+    },
+    {
+      "id": "862c90d24b3341e39ca0551b244555e7",
+      "environmentId": "19354803355b4883bec6ff4a10efbc02",
+      "routeKey": "Auth_Login",
+      "description": "Imported from Ocelot config",
+      "isActive": true,
+      "upstreamPathTemplate": "/gateway/auth/login",
+      "upstreamMethods": [
+        "POST"
+      ],
+      "downstreamPathTemplate": "/api/auth/login",
+      "downstreamScheme": "https",
+      "downstreamServiceId": "c0c4529e62594f1a9ebf8bf930da077d",
+      "downstreamHostAndPorts": [
+        {
+          "host": "auth-service",
+          "port": 443
+        }
+      ],
+      "priority": 1,
+      "requestIdKey": null,
+      "policies": {
+        "auth": null,
+        "rateLimit": null,
+        "cache": {
+          "ttlSeconds": 60
+        }
+      }
+    },
+    {
+      "id": "54a0b58fc57f4cbfba17e1b8e0ecd327",
+      "environmentId": "19354803355b4883bec6ff4a10efbc02",
+      "routeKey": "Payment_Initiate",
+      "description": "Imported from Ocelot config",
+      "isActive": true,
+      "upstreamPathTemplate": "/gateway/payments/initiate",
+      "upstreamMethods": [
+        "POST"
+      ],
+      "downstreamPathTemplate": "/api/payments/initiate",
+      "downstreamScheme": "https",
+      "downstreamServiceId": "f80cf02050694171a690e1e31330b175",
+      "downstreamHostAndPorts": [
+        {
+          "host": "payment-service",
           "port": 443
         }
       ],
@@ -650,6 +1181,270 @@
       "correlationId": "2579026a-969d-4c9e-9c8e-7a24772d0eb2",
       "beforeJson": null,
       "afterJson": "{\n  \u0022id\u0022: \u0022cfa0142af3d544ebacc0bed4fc28554b\u0022,\n  \u0022environmentId\u0022: \u0022e29866a46376491f8abe44d9b1379517\u0022,\n  \u0022routeKey\u0022: \u0022Auth_Login\u0022,\n  \u0022description\u0022: \u0022Imported from Ocelot config\u0022,\n  \u0022isActive\u0022: true,\n  \u0022upstreamPathTemplate\u0022: \u0022/gateway/auth/login\u0022,\n  \u0022upstreamMethods\u0022: [\n    \u0022POST\u0022\n  ],\n  \u0022downstreamPathTemplate\u0022: \u0022/api/auth/login\u0022,\n  \u0022downstreamScheme\u0022: \u0022https\u0022,\n  \u0022downstreamServiceId\u0022: \u002222c19f48fc374befb592ad26acf88704\u0022,\n  \u0022downstreamHostAndPorts\u0022: [\n    {\n      \u0022host\u0022: \u0022auth-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022priority\u0022: 1,\n  \u0022requestIdKey\u0022: null,\n  \u0022policies\u0022: {\n    \u0022auth\u0022: null,\n    \u0022rateLimit\u0022: null,\n    \u0022cache\u0022: null\n  }\n}"
+    },
+    {
+      "id": "17f51a5c81574d26a462d8f3f526c522",
+      "actor": "system",
+      "action": "EnvironmentCreated",
+      "entityType": "Environment",
+      "entityId": "751304f9489a4932a33097cb7cadb7f9",
+      "timestamp": "2025-12-14T13:26:04.9378859Z",
+      "reason": null,
+      "correlationId": "8b26070b-b422-4060-9306-8cb685693b98",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u0022751304f9489a4932a33097cb7cadb7f9\u0022,\n  \u0022name\u0022: \u0022Imported\u0022,\n  \u0022baseUrl\u0022: \u0022https://api.example.gov.ae\u0022,\n  \u0022discoveryProviderType\u0022: \u0022Consul\u0022,\n  \u0022settingsJson\u0022: {}\n}"
+    },
+    {
+      "id": "ff000f7d4d824a319e75166d339f06b7",
+      "actor": "system",
+      "action": "ServiceCreated",
+      "entityType": "Service",
+      "entityId": "99a7d984e39e43a4b9a440fcdc76b804",
+      "timestamp": "2025-12-14T13:26:04.9651002Z",
+      "reason": null,
+      "correlationId": "df179a01-a87e-4d66-a8c9-a07d3a89b3bf",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u002299a7d984e39e43a4b9a440fcdc76b804\u0022,\n  \u0022environmentId\u0022: \u0022751304f9489a4932a33097cb7cadb7f9\u0022,\n  \u0022name\u0022: \u0022Auth Service\u0022,\n  \u0022defaultScheme\u0022: \u0022https\u0022,\n  \u0022hosts\u0022: [\n    {\n      \u0022host\u0022: \u0022auth-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022tags\u0022: [\n    \u0022imported\u0022\n  ],\n  \u0022healthEndpoint\u0022: null,\n  \u0022useServiceDiscovery\u0022: false,\n  \u0022serviceDiscoveryName\u0022: null\n}"
+    },
+    {
+      "id": "f86e08d53ad443d4807b777d24f2310f",
+      "actor": "system",
+      "action": "RouteCreated",
+      "entityType": "Route",
+      "entityId": "2865cd3b44d64983a57db3f5f922d87a",
+      "timestamp": "2025-12-14T13:26:04.9677138Z",
+      "reason": null,
+      "correlationId": "b5812c41-bf14-4c7d-837e-c730bc874a32",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u00222865cd3b44d64983a57db3f5f922d87a\u0022,\n  \u0022environmentId\u0022: \u0022751304f9489a4932a33097cb7cadb7f9\u0022,\n  \u0022routeKey\u0022: \u0022Auth_Login\u0022,\n  \u0022description\u0022: \u0022Imported from Ocelot config\u0022,\n  \u0022isActive\u0022: true,\n  \u0022upstreamPathTemplate\u0022: \u0022/gateway/auth/login\u0022,\n  \u0022upstreamMethods\u0022: [\n    \u0022POST\u0022\n  ],\n  \u0022downstreamPathTemplate\u0022: \u0022/api/auth/login\u0022,\n  \u0022downstreamScheme\u0022: \u0022https\u0022,\n  \u0022downstreamServiceId\u0022: \u002299a7d984e39e43a4b9a440fcdc76b804\u0022,\n  \u0022downstreamHostAndPorts\u0022: [\n    {\n      \u0022host\u0022: \u0022auth-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022priority\u0022: 1,\n  \u0022requestIdKey\u0022: null,\n  \u0022policies\u0022: {\n    \u0022auth\u0022: {\n      \u0022scheme\u0022: \u0022Bearer\u0022,\n      \u0022allowedScopes\u0022: []\n    },\n    \u0022rateLimit\u0022: {\n      \u0022enableRateLimiting\u0022: true,\n      \u0022period\u0022: \u00221m\u0022,\n      \u0022limit\u0022: 30\n    },\n    \u0022cache\u0022: null\n  }\n}"
+    },
+    {
+      "id": "818209f11de04744b0d25eab2bcbb424",
+      "actor": "system",
+      "action": "RouteCreated",
+      "entityType": "Route",
+      "entityId": "ba1f85d4098a488598186260bd9ef442",
+      "timestamp": "2025-12-14T13:26:04.9693466Z",
+      "reason": null,
+      "correlationId": "18cbf538-5c35-4533-bfee-a4e927d96210",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u0022ba1f85d4098a488598186260bd9ef442\u0022,\n  \u0022environmentId\u0022: \u0022751304f9489a4932a33097cb7cadb7f9\u0022,\n  \u0022routeKey\u0022: \u0022Auth_Refresh\u0022,\n  \u0022description\u0022: \u0022Imported from Ocelot config\u0022,\n  \u0022isActive\u0022: true,\n  \u0022upstreamPathTemplate\u0022: \u0022/gateway/auth/refresh\u0022,\n  \u0022upstreamMethods\u0022: [\n    \u0022POST\u0022\n  ],\n  \u0022downstreamPathTemplate\u0022: \u0022/api/auth/refresh\u0022,\n  \u0022downstreamScheme\u0022: \u0022https\u0022,\n  \u0022downstreamServiceId\u0022: \u002299a7d984e39e43a4b9a440fcdc76b804\u0022,\n  \u0022downstreamHostAndPorts\u0022: [\n    {\n      \u0022host\u0022: \u0022auth-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022priority\u0022: 1,\n  \u0022requestIdKey\u0022: null,\n  \u0022policies\u0022: {\n    \u0022auth\u0022: null,\n    \u0022rateLimit\u0022: null,\n    \u0022cache\u0022: null\n  }\n}"
+    },
+    {
+      "id": "e223888ab41246beadbfda5d4994191e",
+      "actor": "system",
+      "action": "ServiceCreated",
+      "entityType": "Service",
+      "entityId": "c3b26ad63cf04a32b898728f91c6cc05",
+      "timestamp": "2025-12-14T13:26:04.9715714Z",
+      "reason": null,
+      "correlationId": "39645fca-d598-4d8d-8a11-5407f820a6cf",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u0022c3b26ad63cf04a32b898728f91c6cc05\u0022,\n  \u0022environmentId\u0022: \u0022751304f9489a4932a33097cb7cadb7f9\u0022,\n  \u0022name\u0022: \u0022User Service\u0022,\n  \u0022defaultScheme\u0022: \u0022https\u0022,\n  \u0022hosts\u0022: [\n    {\n      \u0022host\u0022: \u0022user-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022tags\u0022: [\n    \u0022imported\u0022\n  ],\n  \u0022healthEndpoint\u0022: null,\n  \u0022useServiceDiscovery\u0022: false,\n  \u0022serviceDiscoveryName\u0022: null\n}"
+    },
+    {
+      "id": "1cd80d2ba50d4aa9a77f7a5ab7d9dae0",
+      "actor": "system",
+      "action": "RouteCreated",
+      "entityType": "Route",
+      "entityId": "760eb03655b74495ba02575f37fe412d",
+      "timestamp": "2025-12-14T13:26:04.9734815Z",
+      "reason": null,
+      "correlationId": "2cb5c91c-f6c8-42f9-942a-b8e1ff3354e7",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u0022760eb03655b74495ba02575f37fe412d\u0022,\n  \u0022environmentId\u0022: \u0022751304f9489a4932a33097cb7cadb7f9\u0022,\n  \u0022routeKey\u0022: \u0022User_GetById\u0022,\n  \u0022description\u0022: \u0022Imported from Ocelot config\u0022,\n  \u0022isActive\u0022: true,\n  \u0022upstreamPathTemplate\u0022: \u0022/gateway/users/{userId}\u0022,\n  \u0022upstreamMethods\u0022: [\n    \u0022GET\u0022\n  ],\n  \u0022downstreamPathTemplate\u0022: \u0022/api/users/{userId}\u0022,\n  \u0022downstreamScheme\u0022: \u0022https\u0022,\n  \u0022downstreamServiceId\u0022: \u0022c3b26ad63cf04a32b898728f91c6cc05\u0022,\n  \u0022downstreamHostAndPorts\u0022: [\n    {\n      \u0022host\u0022: \u0022user-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022priority\u0022: 1,\n  \u0022requestIdKey\u0022: null,\n  \u0022policies\u0022: {\n    \u0022auth\u0022: {\n      \u0022scheme\u0022: \u0022Bearer\u0022,\n      \u0022allowedScopes\u0022: [\n        \u0022users.read\u0022\n      ]\n    },\n    \u0022rateLimit\u0022: null,\n    \u0022cache\u0022: {\n      \u0022ttlSeconds\u0022: 60\n    }\n  }\n}"
+    },
+    {
+      "id": "d935e90fbc684272a63ee36902c4847d",
+      "actor": "system",
+      "action": "RouteCreated",
+      "entityType": "Route",
+      "entityId": "e5e7a7ef2b79422aaeee4c6f162228bf",
+      "timestamp": "2025-12-14T13:26:04.9752909Z",
+      "reason": null,
+      "correlationId": "90c7324e-618a-434d-b6de-3c2887055cad",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u0022e5e7a7ef2b79422aaeee4c6f162228bf\u0022,\n  \u0022environmentId\u0022: \u0022751304f9489a4932a33097cb7cadb7f9\u0022,\n  \u0022routeKey\u0022: \u0022User_Create\u0022,\n  \u0022description\u0022: \u0022Imported from Ocelot config\u0022,\n  \u0022isActive\u0022: true,\n  \u0022upstreamPathTemplate\u0022: \u0022/gateway/users\u0022,\n  \u0022upstreamMethods\u0022: [\n    \u0022POST\u0022\n  ],\n  \u0022downstreamPathTemplate\u0022: \u0022/api/users\u0022,\n  \u0022downstreamScheme\u0022: \u0022https\u0022,\n  \u0022downstreamServiceId\u0022: \u0022c3b26ad63cf04a32b898728f91c6cc05\u0022,\n  \u0022downstreamHostAndPorts\u0022: [\n    {\n      \u0022host\u0022: \u0022user-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022priority\u0022: 1,\n  \u0022requestIdKey\u0022: null,\n  \u0022policies\u0022: {\n    \u0022auth\u0022: {\n      \u0022scheme\u0022: \u0022Bearer\u0022,\n      \u0022allowedScopes\u0022: [\n        \u0022users.write\u0022\n      ]\n    },\n    \u0022rateLimit\u0022: null,\n    \u0022cache\u0022: null\n  }\n}"
+    },
+    {
+      "id": "2cb5eb1331864d269b0ee343a5a5f32f",
+      "actor": "system",
+      "action": "ServiceCreated",
+      "entityType": "Service",
+      "entityId": "642a808fae624187b8554bf9e69ec0e5",
+      "timestamp": "2025-12-14T13:26:04.9780225Z",
+      "reason": null,
+      "correlationId": "6bc404f1-fbb9-43b3-a789-b3600e0749d9",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u0022642a808fae624187b8554bf9e69ec0e5\u0022,\n  \u0022environmentId\u0022: \u0022751304f9489a4932a33097cb7cadb7f9\u0022,\n  \u0022name\u0022: \u0022Document Service\u0022,\n  \u0022defaultScheme\u0022: \u0022https\u0022,\n  \u0022hosts\u0022: [\n    {\n      \u0022host\u0022: \u0022document-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022tags\u0022: [\n    \u0022imported\u0022\n  ],\n  \u0022healthEndpoint\u0022: null,\n  \u0022useServiceDiscovery\u0022: false,\n  \u0022serviceDiscoveryName\u0022: null\n}"
+    },
+    {
+      "id": "7c2ba6dcb4894dc89916a065aac91353",
+      "actor": "system",
+      "action": "RouteCreated",
+      "entityType": "Route",
+      "entityId": "fd644e9d846b4bf9a29c0f0dd72e7946",
+      "timestamp": "2025-12-14T13:26:04.9797483Z",
+      "reason": null,
+      "correlationId": "7cd39de2-6673-42e2-b43d-c34241e616ec",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u0022fd644e9d846b4bf9a29c0f0dd72e7946\u0022,\n  \u0022environmentId\u0022: \u0022751304f9489a4932a33097cb7cadb7f9\u0022,\n  \u0022routeKey\u0022: \u0022Document_Download\u0022,\n  \u0022description\u0022: \u0022Imported from Ocelot config\u0022,\n  \u0022isActive\u0022: true,\n  \u0022upstreamPathTemplate\u0022: \u0022/gateway/documents/{docId}/download\u0022,\n  \u0022upstreamMethods\u0022: [\n    \u0022GET\u0022\n  ],\n  \u0022downstreamPathTemplate\u0022: \u0022/api/documents/{docId}/download\u0022,\n  \u0022downstreamScheme\u0022: \u0022https\u0022,\n  \u0022downstreamServiceId\u0022: \u0022642a808fae624187b8554bf9e69ec0e5\u0022,\n  \u0022downstreamHostAndPorts\u0022: [\n    {\n      \u0022host\u0022: \u0022document-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022priority\u0022: 1,\n  \u0022requestIdKey\u0022: null,\n  \u0022policies\u0022: {\n    \u0022auth\u0022: {\n      \u0022scheme\u0022: \u0022Bearer\u0022,\n      \u0022allowedScopes\u0022: [\n        \u0022documents.read\u0022\n      ]\n    },\n    \u0022rateLimit\u0022: null,\n    \u0022cache\u0022: null\n  }\n}"
+    },
+    {
+      "id": "3f2158f065994717a720254dcefb3cd7",
+      "actor": "system",
+      "action": "RouteCreated",
+      "entityType": "Route",
+      "entityId": "1753ec8139234e46875e49acc0e8ffe1",
+      "timestamp": "2025-12-14T13:26:04.9814791Z",
+      "reason": null,
+      "correlationId": "d3c5bbc2-e5b7-4cc2-b513-285fa8e3ef8c",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u00221753ec8139234e46875e49acc0e8ffe1\u0022,\n  \u0022environmentId\u0022: \u0022751304f9489a4932a33097cb7cadb7f9\u0022,\n  \u0022routeKey\u0022: \u0022Document_Upload\u0022,\n  \u0022description\u0022: \u0022Imported from Ocelot config\u0022,\n  \u0022isActive\u0022: true,\n  \u0022upstreamPathTemplate\u0022: \u0022/gateway/documents/upload\u0022,\n  \u0022upstreamMethods\u0022: [\n    \u0022POST\u0022\n  ],\n  \u0022downstreamPathTemplate\u0022: \u0022/api/documents/upload\u0022,\n  \u0022downstreamScheme\u0022: \u0022https\u0022,\n  \u0022downstreamServiceId\u0022: \u0022642a808fae624187b8554bf9e69ec0e5\u0022,\n  \u0022downstreamHostAndPorts\u0022: [\n    {\n      \u0022host\u0022: \u0022document-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022priority\u0022: 1,\n  \u0022requestIdKey\u0022: \u0022X-Document-Request-Id\u0022,\n  \u0022policies\u0022: {\n    \u0022auth\u0022: null,\n    \u0022rateLimit\u0022: null,\n    \u0022cache\u0022: null\n  }\n}"
+    },
+    {
+      "id": "d535603a39c046c9aa894e1392e4b5d5",
+      "actor": "system",
+      "action": "ServiceCreated",
+      "entityType": "Service",
+      "entityId": "b5d3393361404197b4f3cbe27e469214",
+      "timestamp": "2025-12-14T13:26:04.9836337Z",
+      "reason": null,
+      "correlationId": "d993b41a-84e7-4ef6-ac98-94e19c21ab26",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u0022b5d3393361404197b4f3cbe27e469214\u0022,\n  \u0022environmentId\u0022: \u0022751304f9489a4932a33097cb7cadb7f9\u0022,\n  \u0022name\u0022: \u0022Payment Service\u0022,\n  \u0022defaultScheme\u0022: \u0022https\u0022,\n  \u0022hosts\u0022: [\n    {\n      \u0022host\u0022: \u0022payment-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022tags\u0022: [\n    \u0022imported\u0022\n  ],\n  \u0022healthEndpoint\u0022: null,\n  \u0022useServiceDiscovery\u0022: false,\n  \u0022serviceDiscoveryName\u0022: null\n}"
+    },
+    {
+      "id": "5cb63c0c242e493299142c80d59e9ed5",
+      "actor": "system",
+      "action": "RouteCreated",
+      "entityType": "Route",
+      "entityId": "77546e93cf1740769da64386108a0137",
+      "timestamp": "2025-12-14T13:26:04.9862121Z",
+      "reason": null,
+      "correlationId": "31d511a2-6eee-4cb8-b09a-19831a79b16d",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u002277546e93cf1740769da64386108a0137\u0022,\n  \u0022environmentId\u0022: \u0022751304f9489a4932a33097cb7cadb7f9\u0022,\n  \u0022routeKey\u0022: \u0022Payment_Initiate\u0022,\n  \u0022description\u0022: \u0022Imported from Ocelot config\u0022,\n  \u0022isActive\u0022: true,\n  \u0022upstreamPathTemplate\u0022: \u0022/gateway/payments/initiate\u0022,\n  \u0022upstreamMethods\u0022: [\n    \u0022POST\u0022\n  ],\n  \u0022downstreamPathTemplate\u0022: \u0022/api/payments/initiate\u0022,\n  \u0022downstreamScheme\u0022: \u0022https\u0022,\n  \u0022downstreamServiceId\u0022: \u0022b5d3393361404197b4f3cbe27e469214\u0022,\n  \u0022downstreamHostAndPorts\u0022: [\n    {\n      \u0022host\u0022: \u0022payment-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022priority\u0022: 1,\n  \u0022requestIdKey\u0022: null,\n  \u0022policies\u0022: {\n    \u0022auth\u0022: null,\n    \u0022rateLimit\u0022: {\n      \u0022enableRateLimiting\u0022: true,\n      \u0022period\u0022: \u00221m\u0022,\n      \u0022limit\u0022: 10\n    },\n    \u0022cache\u0022: null\n  }\n}"
+    },
+    {
+      "id": "be7a7ee9dccc4e97bdd60c21e1a57416",
+      "actor": "system",
+      "action": "RouteCreated",
+      "entityType": "Route",
+      "entityId": "99b1a4a029b045548f2e79771f0b5322",
+      "timestamp": "2025-12-14T13:26:04.9885607Z",
+      "reason": null,
+      "correlationId": "d57a94be-92eb-407e-bd4d-98eeb850b5c8",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u002299b1a4a029b045548f2e79771f0b5322\u0022,\n  \u0022environmentId\u0022: \u0022751304f9489a4932a33097cb7cadb7f9\u0022,\n  \u0022routeKey\u0022: \u0022Payment_Status\u0022,\n  \u0022description\u0022: \u0022Imported from Ocelot config\u0022,\n  \u0022isActive\u0022: true,\n  \u0022upstreamPathTemplate\u0022: \u0022/gateway/payments/{paymentId}/status\u0022,\n  \u0022upstreamMethods\u0022: [\n    \u0022GET\u0022\n  ],\n  \u0022downstreamPathTemplate\u0022: \u0022/api/payments/{paymentId}/status\u0022,\n  \u0022downstreamScheme\u0022: \u0022https\u0022,\n  \u0022downstreamServiceId\u0022: \u0022b5d3393361404197b4f3cbe27e469214\u0022,\n  \u0022downstreamHostAndPorts\u0022: [\n    {\n      \u0022host\u0022: \u0022payment-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022priority\u0022: 1,\n  \u0022requestIdKey\u0022: null,\n  \u0022policies\u0022: {\n    \u0022auth\u0022: null,\n    \u0022rateLimit\u0022: null,\n    \u0022cache\u0022: null\n  }\n}"
+    },
+    {
+      "id": "3cd5b06f94564f11b222d0064d160a55",
+      "actor": "system",
+      "action": "ServiceCreated",
+      "entityType": "Service",
+      "entityId": "e5cdd1b1a27c484a9146e4fafa9d295c",
+      "timestamp": "2025-12-14T13:26:04.9905192Z",
+      "reason": null,
+      "correlationId": "35cb27b3-1462-4302-9a2d-32f00401c135",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u0022e5cdd1b1a27c484a9146e4fafa9d295c\u0022,\n  \u0022environmentId\u0022: \u0022751304f9489a4932a33097cb7cadb7f9\u0022,\n  \u0022name\u0022: \u0022Admin Service\u0022,\n  \u0022defaultScheme\u0022: \u0022https\u0022,\n  \u0022hosts\u0022: [\n    {\n      \u0022host\u0022: \u0022admin-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022tags\u0022: [\n    \u0022imported\u0022\n  ],\n  \u0022healthEndpoint\u0022: null,\n  \u0022useServiceDiscovery\u0022: false,\n  \u0022serviceDiscoveryName\u0022: null\n}"
+    },
+    {
+      "id": "b4329af946fb4f79b04fffcaddfcecfd",
+      "actor": "system",
+      "action": "RouteCreated",
+      "entityType": "Route",
+      "entityId": "9b1b45354baa46f2a58db6e23a7af362",
+      "timestamp": "2025-12-14T13:26:04.9922294Z",
+      "reason": null,
+      "correlationId": "c27535c6-10f1-49eb-9aa5-ba7ecd2bee6c",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u00229b1b45354baa46f2a58db6e23a7af362\u0022,\n  \u0022environmentId\u0022: \u0022751304f9489a4932a33097cb7cadb7f9\u0022,\n  \u0022routeKey\u0022: \u0022Admin_AuditLogs\u0022,\n  \u0022description\u0022: \u0022Imported from Ocelot config\u0022,\n  \u0022isActive\u0022: true,\n  \u0022upstreamPathTemplate\u0022: \u0022/gateway/admin/audit-logs\u0022,\n  \u0022upstreamMethods\u0022: [\n    \u0022GET\u0022\n  ],\n  \u0022downstreamPathTemplate\u0022: \u0022/api/admin/audit-logs\u0022,\n  \u0022downstreamScheme\u0022: \u0022https\u0022,\n  \u0022downstreamServiceId\u0022: \u0022e5cdd1b1a27c484a9146e4fafa9d295c\u0022,\n  \u0022downstreamHostAndPorts\u0022: [\n    {\n      \u0022host\u0022: \u0022admin-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022priority\u0022: 1,\n  \u0022requestIdKey\u0022: null,\n  \u0022policies\u0022: {\n    \u0022auth\u0022: {\n      \u0022scheme\u0022: \u0022Bearer\u0022,\n      \u0022allowedScopes\u0022: [\n        \u0022admin.read\u0022\n      ]\n    },\n    \u0022rateLimit\u0022: null,\n    \u0022cache\u0022: null\n  }\n}"
+    },
+    {
+      "id": "292b2428600f4534b2ce806ef0cddd5f",
+      "actor": "system",
+      "action": "ServiceCreated",
+      "entityType": "Service",
+      "entityId": "c028ba4f026e406bbd1df012f26f4cb2",
+      "timestamp": "2025-12-14T13:26:04.9968889Z",
+      "reason": null,
+      "correlationId": "f95057a7-5be2-4779-85f7-69ca46901f03",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u0022c028ba4f026e406bbd1df012f26f4cb2\u0022,\n  \u0022environmentId\u0022: \u0022751304f9489a4932a33097cb7cadb7f9\u0022,\n  \u0022name\u0022: \u0022Localhost\u0022,\n  \u0022defaultScheme\u0022: \u0022http\u0022,\n  \u0022hosts\u0022: [\n    {\n      \u0022host\u0022: \u0022localhost\u0022,\n      \u0022port\u0022: 5001\n    }\n  ],\n  \u0022tags\u0022: [\n    \u0022imported\u0022\n  ],\n  \u0022healthEndpoint\u0022: null,\n  \u0022useServiceDiscovery\u0022: false,\n  \u0022serviceDiscoveryName\u0022: null\n}"
+    },
+    {
+      "id": "6793fac682264a7aa5adf7183635f9b4",
+      "actor": "system",
+      "action": "RouteCreated",
+      "entityType": "Route",
+      "entityId": "0a99353b8f62496d97312d39037ae632",
+      "timestamp": "2025-12-14T13:26:04.999406Z",
+      "reason": null,
+      "correlationId": "35003524-36e8-42c0-9074-2293c1bad70a",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u00220a99353b8f62496d97312d39037ae632\u0022,\n  \u0022environmentId\u0022: \u0022751304f9489a4932a33097cb7cadb7f9\u0022,\n  \u0022routeKey\u0022: \u0022Health_Check\u0022,\n  \u0022description\u0022: \u0022Imported from Ocelot config\u0022,\n  \u0022isActive\u0022: true,\n  \u0022upstreamPathTemplate\u0022: \u0022/gateway/health\u0022,\n  \u0022upstreamMethods\u0022: [\n    \u0022GET\u0022\n  ],\n  \u0022downstreamPathTemplate\u0022: \u0022/health\u0022,\n  \u0022downstreamScheme\u0022: \u0022http\u0022,\n  \u0022downstreamServiceId\u0022: \u0022c028ba4f026e406bbd1df012f26f4cb2\u0022,\n  \u0022downstreamHostAndPorts\u0022: [\n    {\n      \u0022host\u0022: \u0022localhost\u0022,\n      \u0022port\u0022: 5001\n    }\n  ],\n  \u0022priority\u0022: 1,\n  \u0022requestIdKey\u0022: null,\n  \u0022policies\u0022: {\n    \u0022auth\u0022: null,\n    \u0022rateLimit\u0022: null,\n    \u0022cache\u0022: null\n  }\n}"
+    },
+    {
+      "id": "b13e60e2606d47839ef8e020a5ebd1af",
+      "actor": "system",
+      "action": "EnvironmentCreated",
+      "entityType": "Environment",
+      "entityId": "19354803355b4883bec6ff4a10efbc02",
+      "timestamp": "2025-12-14T13:27:09.7919528Z",
+      "reason": null,
+      "correlationId": "6c46559b-c6d6-4f12-a362-d28157af6a5f",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u002219354803355b4883bec6ff4a10efbc02\u0022,\n  \u0022name\u0022: \u0022GovAE\u0022,\n  \u0022baseUrl\u0022: \u0022https://api.example.gov.ae\u0022,\n  \u0022discoveryProviderType\u0022: \u0022Consul\u0022,\n  \u0022settingsJson\u0022: {}\n}"
+    },
+    {
+      "id": "c06a23e4a57f4daa8e7edfd8e712b5cd",
+      "actor": "system",
+      "action": "ServiceCreated",
+      "entityType": "Service",
+      "entityId": "c0c4529e62594f1a9ebf8bf930da077d",
+      "timestamp": "2025-12-14T13:27:09.7990425Z",
+      "reason": null,
+      "correlationId": "51eb84bd-5e5d-4abc-924b-f17b25c42352",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u0022c0c4529e62594f1a9ebf8bf930da077d\u0022,\n  \u0022environmentId\u0022: \u002219354803355b4883bec6ff4a10efbc02\u0022,\n  \u0022name\u0022: \u0022Auth Service\u0022,\n  \u0022defaultScheme\u0022: \u0022https\u0022,\n  \u0022hosts\u0022: [\n    {\n      \u0022host\u0022: \u0022auth-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022tags\u0022: [\n    \u0022imported\u0022\n  ],\n  \u0022healthEndpoint\u0022: null,\n  \u0022useServiceDiscovery\u0022: false,\n  \u0022serviceDiscoveryName\u0022: null\n}"
+    },
+    {
+      "id": "2426e1f44fd140caa2afa0a2267f5924",
+      "actor": "system",
+      "action": "RouteCreated",
+      "entityType": "Route",
+      "entityId": "862c90d24b3341e39ca0551b244555e7",
+      "timestamp": "2025-12-14T13:27:09.8023951Z",
+      "reason": null,
+      "correlationId": "3922c28d-2cfc-4c56-92ba-bbd77e2c5d69",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u0022862c90d24b3341e39ca0551b244555e7\u0022,\n  \u0022environmentId\u0022: \u002219354803355b4883bec6ff4a10efbc02\u0022,\n  \u0022routeKey\u0022: \u0022Auth_Login\u0022,\n  \u0022description\u0022: \u0022Imported from Ocelot config\u0022,\n  \u0022isActive\u0022: true,\n  \u0022upstreamPathTemplate\u0022: \u0022/gateway/auth/login\u0022,\n  \u0022upstreamMethods\u0022: [\n    \u0022POST\u0022\n  ],\n  \u0022downstreamPathTemplate\u0022: \u0022/api/auth/login\u0022,\n  \u0022downstreamScheme\u0022: \u0022https\u0022,\n  \u0022downstreamServiceId\u0022: \u0022c0c4529e62594f1a9ebf8bf930da077d\u0022,\n  \u0022downstreamHostAndPorts\u0022: [\n    {\n      \u0022host\u0022: \u0022auth-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022priority\u0022: 1,\n  \u0022requestIdKey\u0022: null,\n  \u0022policies\u0022: {\n    \u0022auth\u0022: null,\n    \u0022rateLimit\u0022: null,\n    \u0022cache\u0022: {\n      \u0022ttlSeconds\u0022: 60\n    }\n  }\n}"
+    },
+    {
+      "id": "a72608b617364197a1f3324033e4fa76",
+      "actor": "system",
+      "action": "ServiceCreated",
+      "entityType": "Service",
+      "entityId": "f80cf02050694171a690e1e31330b175",
+      "timestamp": "2025-12-14T13:27:09.8050198Z",
+      "reason": null,
+      "correlationId": "92901c6f-3f9e-44d7-bd65-2aae570b5282",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u0022f80cf02050694171a690e1e31330b175\u0022,\n  \u0022environmentId\u0022: \u002219354803355b4883bec6ff4a10efbc02\u0022,\n  \u0022name\u0022: \u0022Payment Service\u0022,\n  \u0022defaultScheme\u0022: \u0022https\u0022,\n  \u0022hosts\u0022: [\n    {\n      \u0022host\u0022: \u0022payment-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022tags\u0022: [\n    \u0022imported\u0022\n  ],\n  \u0022healthEndpoint\u0022: null,\n  \u0022useServiceDiscovery\u0022: false,\n  \u0022serviceDiscoveryName\u0022: null\n}"
+    },
+    {
+      "id": "e59f7fb60ec442a79c20d3660d75d5fb",
+      "actor": "system",
+      "action": "RouteCreated",
+      "entityType": "Route",
+      "entityId": "54a0b58fc57f4cbfba17e1b8e0ecd327",
+      "timestamp": "2025-12-14T13:27:09.8090623Z",
+      "reason": null,
+      "correlationId": "eb7c752d-7d96-435f-9b3f-415466aff6f0",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u002254a0b58fc57f4cbfba17e1b8e0ecd327\u0022,\n  \u0022environmentId\u0022: \u002219354803355b4883bec6ff4a10efbc02\u0022,\n  \u0022routeKey\u0022: \u0022Payment_Initiate\u0022,\n  \u0022description\u0022: \u0022Imported from Ocelot config\u0022,\n  \u0022isActive\u0022: true,\n  \u0022upstreamPathTemplate\u0022: \u0022/gateway/payments/initiate\u0022,\n  \u0022upstreamMethods\u0022: [\n    \u0022POST\u0022\n  ],\n  \u0022downstreamPathTemplate\u0022: \u0022/api/payments/initiate\u0022,\n  \u0022downstreamScheme\u0022: \u0022https\u0022,\n  \u0022downstreamServiceId\u0022: \u0022f80cf02050694171a690e1e31330b175\u0022,\n  \u0022downstreamHostAndPorts\u0022: [\n    {\n      \u0022host\u0022: \u0022payment-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022priority\u0022: 1,\n  \u0022requestIdKey\u0022: null,\n  \u0022policies\u0022: {\n    \u0022auth\u0022: null,\n    \u0022rateLimit\u0022: null,\n    \u0022cache\u0022: null\n  }\n}"
     }
   ],
   "authenticationPolicies": [
