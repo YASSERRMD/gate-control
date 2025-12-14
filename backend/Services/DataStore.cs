@@ -34,6 +34,8 @@ public class DataStore
     public IReadOnlyCollection<ServiceModel> Services => _data.Services;
     public IReadOnlyCollection<RouteModel> Routes => _data.Routes;
     public IReadOnlyCollection<ChangeRequest> ChangeRequests => _data.ChangeRequests;
+    public IReadOnlyCollection<PublishRecord> PublishHistory => _data.PublishHistory;
+    public IReadOnlyCollection<AuditLogEntry> AuditLogs => _data.AuditLogs;
 
     public EnvironmentModel UpsertEnvironment(EnvironmentModel model)
     {
@@ -56,6 +58,13 @@ public class DataStore
                 existing.DiscoveryProviderType = model.DiscoveryProviderType;
                 existing.SettingsJson = model.SettingsJson ?? new JsonObject();
             }
+            AppendAudit(new AuditLogEntry
+            {
+                Action = existing is null ? "EnvironmentCreated" : "EnvironmentUpdated",
+                EntityType = "Environment",
+                EntityId = model.Id,
+                AfterJson = JsonSerializer.Serialize(model, _jsonOptions)
+            });
             Persist();
             return model;
         }
@@ -84,6 +93,13 @@ public class DataStore
                 existing.Tags = model.Tags;
                 existing.HealthEndpoint = model.HealthEndpoint;
             }
+            AppendAudit(new AuditLogEntry
+            {
+                Action = existing is null ? "ServiceCreated" : "ServiceUpdated",
+                EntityType = "Service",
+                EntityId = model.Id,
+                AfterJson = JsonSerializer.Serialize(model, _jsonOptions)
+            });
             Persist();
             return model;
         }
@@ -119,6 +135,13 @@ public class DataStore
                 existing.RequestIdKey = model.RequestIdKey;
                 existing.Policies = model.Policies ?? new RoutePolicies();
             }
+            AppendAudit(new AuditLogEntry
+            {
+                Action = existing is null ? "RouteCreated" : "RouteUpdated",
+                EntityType = "Route",
+                EntityId = model.Id,
+                AfterJson = JsonSerializer.Serialize(model, _jsonOptions)
+            });
             Persist();
             return model;
         }
@@ -155,22 +178,91 @@ public class DataStore
                 existing.Justification = model.Justification;
                 existing.Items = model.Items;
             }
+            AppendAudit(new AuditLogEntry
+            {
+                Action = existing is null ? "ChangeRequestCreated" : "ChangeRequestUpdated",
+                EntityType = "ChangeRequest",
+                EntityId = model.Id,
+                AfterJson = JsonSerializer.Serialize(model, _jsonOptions)
+            });
             Persist();
             return model;
         }
     }
 
-    public bool DeleteEnvironment(string id) => DeleteEntity(_data.Environments, id);
-    public bool DeleteService(string id) => DeleteEntity(_data.Services, id);
-    public bool DeleteRoute(string id) => DeleteEntity(_data.Routes, id);
-    public bool DeleteChangeRequest(string id) => DeleteEntity(_data.ChangeRequests, id);
+    public bool DeleteEnvironment(string id) => DeleteEntity(_data.Environments, id, "Environment");
+    public bool DeleteService(string id) => DeleteEntity(_data.Services, id, "Service");
+    public bool DeleteRoute(string id) => DeleteEntity(_data.Routes, id, "Route");
+    public bool DeleteChangeRequest(string id) => DeleteEntity(_data.ChangeRequests, id, "ChangeRequest");
 
     public EnvironmentModel? GetEnvironment(string id) => _data.Environments.FirstOrDefault(e => e.Id == id);
     public ServiceModel? GetService(string id) => _data.Services.FirstOrDefault(s => s.Id == id);
     public RouteModel? GetRoute(string id) => _data.Routes.FirstOrDefault(r => r.Id == id);
     public ChangeRequest? GetChangeRequest(string id) => _data.ChangeRequests.FirstOrDefault(c => c.Id == id);
 
-    private bool DeleteEntity<T>(ICollection<T> list, string id) where T : class
+    public ChangeRequest? UpdateChangeRequestStatus(string id, string status, string actor, string? reason)
+    {
+        lock (_lock)
+        {
+            var existing = _data.ChangeRequests.FirstOrDefault(c => c.Id == id);
+            if (existing is null)
+            {
+                return null;
+            }
+
+            existing.Status = status;
+            if (string.Equals(status, "InReview", StringComparison.OrdinalIgnoreCase))
+            {
+                existing.ApprovedBy = null;
+                existing.ApprovedAt = null;
+            }
+
+            if (string.Equals(status, "Approved", StringComparison.OrdinalIgnoreCase))
+            {
+                existing.ApprovedBy = actor;
+                existing.ApprovedAt = DateTime.UtcNow;
+            }
+
+            if (string.Equals(status, "Published", StringComparison.OrdinalIgnoreCase))
+            {
+                existing.PublishedBy = actor;
+                existing.PublishedAt = DateTime.UtcNow;
+            }
+
+            AppendAudit(new AuditLogEntry
+            {
+                Actor = actor,
+                Action = "ChangeRequestStatus",
+                EntityType = "ChangeRequest",
+                EntityId = id,
+                Reason = reason,
+                AfterJson = JsonSerializer.Serialize(existing, _jsonOptions)
+            });
+
+            Persist();
+            return existing;
+        }
+    }
+
+    public void AppendPublishRecord(PublishRecord record)
+    {
+        lock (_lock)
+        {
+            _data.PublishHistory.Add(record);
+            Persist();
+        }
+    }
+
+    public void AppendAudit(AuditLogEntry entry)
+    {
+        lock (_lock)
+        {
+            _data.AuditLogs.Add(entry);
+            Persist();
+        }
+    }
+
+    private bool DeleteEntity<T>(ICollection<T> list, string id, string entityType) where T : class
     {
         lock (_lock)
         {
@@ -181,6 +273,13 @@ public class DataStore
             }
 
             list.Remove(toDelete);
+            AppendAudit(new AuditLogEntry
+            {
+                Action = "Delete",
+                EntityType = entityType,
+                EntityId = id,
+                BeforeJson = JsonSerializer.Serialize(toDelete, _jsonOptions)
+            });
             Persist();
             return true;
         }

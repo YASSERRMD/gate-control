@@ -13,6 +13,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<DataStore>();
 builder.Services.AddSingleton<OcelotGenerator>();
+builder.Services.AddSingleton<ValidationService>();
+builder.Services.AddSingleton<PublisherService>();
+builder.Services.AddSingleton<ObservabilityService>();
 
 var app = builder.Build();
 
@@ -107,6 +110,12 @@ app.MapPut("/api/change-requests/{id}", (string id, ChangeRequest model, DataSto
     return Results.Ok(store.UpsertChangeRequest(model));
 }).WithTags("Change Requests");
 
+app.MapPut("/api/change-requests/{id}/status", (string id, StatusChangeRequest request, DataStore store) =>
+{
+    var updated = store.UpdateChangeRequestStatus(id, request.Status, request.Actor ?? "system", request.Reason);
+    return updated is null ? Results.NotFound() : Results.Ok(updated);
+}).WithTags("Change Requests");
+
 app.MapDelete("/api/change-requests/{id}", (string id, DataStore store) =>
 {
     return store.DeleteChangeRequest(id) ? Results.NoContent() : Results.NotFound();
@@ -124,6 +133,30 @@ app.MapGet("/api/environments/{environmentId}/ocelot", (string environmentId, Oc
         return Results.NotFound(new { error = ex.Message });
     }
 }).WithTags("Config");
+
+app.MapGet("/api/environments/{environmentId}/validate", (string environmentId, ValidationService validator) =>
+{
+    var report = validator.ValidateEnvironment(environmentId);
+    return Results.Ok(report);
+}).WithTags("Config");
+
+app.MapPost("/api/environments/{environmentId}/publish", (string environmentId, PublishRequest publishRequest, PublisherService publisher) =>
+{
+    var record = publisher.Publish(environmentId, publishRequest.Actor ?? "publisher", publishRequest.ChangeRequestId, publishRequest.TargetNodes);
+    return Results.Ok(record);
+}).WithTags("Publishing");
+
+app.MapGet("/api/environments/{environmentId}/publish-history", (string environmentId, DataStore store) =>
+{
+    var history = store.PublishHistory.Where(p => p.EnvironmentId == environmentId).OrderByDescending(p => p.PublishedAt);
+    return Results.Ok(history);
+}).WithTags("Publishing");
+
+app.MapGet("/api/audit-logs", (DataStore store) => Results.Ok(store.AuditLogs.OrderByDescending(a => a.Timestamp)))
+    .WithTags("Audit");
+
+app.MapGet("/api/observability/overview", (ObservabilityService observability) => Results.Ok(observability.Overview()))
+    .WithTags("Observability");
 
 app.MapGet("/", () => Results.Redirect("/swagger"));
 
