@@ -9,6 +9,17 @@ builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.WriteIndented = true;
 });
 
+// Add CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<DataStore>();
@@ -18,6 +29,9 @@ builder.Services.AddSingleton<PublisherService>();
 builder.Services.AddSingleton<ObservabilityService>();
 
 var app = builder.Build();
+
+// Use CORS
+app.UseCors("AllowFrontend");
 
 app.UseSwagger();
 app.UseSwaggerUI();
@@ -157,6 +171,40 @@ app.MapGet("/api/audit-logs", (DataStore store) => Results.Ok(store.AuditLogs.Or
 
 app.MapGet("/api/observability/overview", (ObservabilityService observability) => Results.Ok(observability.Overview()))
     .WithTags("Observability");
+
+// Advanced Features Endpoints
+app.MapGet("/api/authenticationPolicies", (DataStore store) => Results.Ok(store.AuthenticationPolicies))
+    .WithTags("Policies");
+
+app.MapGet("/api/rateLimitPolicies", (DataStore store) => Results.Ok(store.RateLimitPolicies))
+    .WithTags("Policies");
+
+app.MapGet("/api/cachingPolicies", (DataStore store) => Results.Ok(store.CachingPolicies))
+    .WithTags("Policies");
+
+app.MapGet("/api/qosPolicies", (DataStore store) => Results.Ok(store.QosPolicies))
+    .WithTags("Policies");
+
+app.MapGet("/api/loadBalancers", (DataStore store) => Results.Ok(store.LoadBalancers))
+    .WithTags("Load Balancing");
+
+app.MapGet("/api/testCases", (DataStore store) => Results.Ok(store.TestCases))
+    .WithTags("Testing");
+
+app.MapGet("/api/gatewayHealth", (DataStore store) => Results.Ok(store.GatewayHealth))
+    .WithTags("Operations");
+
+app.MapGet("/api/metrics", (DataStore store) => Results.Ok(store.Metrics))
+    .WithTags("Operations");
+
+app.MapGet("/api/users", (DataStore store) => Results.Ok(store.Users))
+    .WithTags("Administration");
+
+app.MapGet("/api/roles", (DataStore store) => Results.Ok(store.Roles))
+    .WithTags("Administration");
+
+app.MapGet("/api/settings", (DataStore store) => Results.Ok(store.Settings))
+    .WithTags("Administration");
 
 app.MapGet("/", () => Results.Redirect("/swagger"));
 

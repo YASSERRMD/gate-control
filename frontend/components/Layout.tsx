@@ -1,28 +1,24 @@
-import Link from 'next/link';
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
+import Sidebar from './Sidebar';
+import Header from './Header';
 
-interface Props {
-  title: string;
-  description?: string;
+interface LayoutProps {
   children: ReactNode;
+  title: string;
+  subtitle: string;
 }
 
-export function Layout({ title, description, children }: Props) {
+export default function Layout({ children, title, subtitle }: LayoutProps) {
   return (
-    <main>
-      <header style={{ marginBottom: '2rem' }}>
-        <h1 style={{ margin: 0, fontSize: '2rem' }}>{title}</h1>
-        {description && <p style={{ color: '#9ca3af', marginTop: '0.25rem' }}>{description}</p>}
-        <nav style={{ marginTop: '1rem', display: 'flex', gap: '1rem' }}>
-          <Link href="/">Home</Link>
-          <Link href="/environments">Environments</Link>
-          <Link href="/services">Services</Link>
-          <Link href="/routes">Routes</Link>
-          <Link href="/change-requests">Change Requests</Link>
-          <Link href="/observability">Observability</Link>
-        </nav>
-      </header>
-      {children}
-    </main>
+    <>
+      <div className="bg-animation"></div>
+      <div className="container">
+        <Sidebar />
+        <main className="main-content">
+          <Header title={title} subtitle={subtitle} />
+          {children}
+        </main>
+      </div>
+    </>
   );
 }

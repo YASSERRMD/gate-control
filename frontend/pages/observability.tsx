@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Layout } from '../components/Layout';
+import Layout from '../components/Layout';
 import { apiGet } from '../lib/api';
 
 interface PublishRecord {
@@ -30,7 +30,7 @@ export default function ObservabilityPage() {
   return (
     <Layout
       title="Observability overview"
-      description="Live counts and recent publishes from the admin API."
+      subtitle="Live counts and recent publishes from the admin API"
     >
       <div className="grid">
         <div className="card">

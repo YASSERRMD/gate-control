@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: gate-control-backend
+    ports:
+      - "5087:5087"
+    volumes:
+      # Mount the data directory to persist db.json
+      - ./data:/app/data
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5087
+    networks:
+      - gate-control-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:5087/swagger/index.html" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: gate-control-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_BASE=http://localhost:5087/api
+    depends_on:
+      - backend
+    networks:
+      - gate-control-network
+
+networks:
+  gate-control-network:
+    driver: bridge
