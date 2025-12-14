@@ -149,8 +149,8 @@ public class OcelotImportService
             }
         }
 
-        // Cache policy
-        var cacheOptions = routeNode["FileCacheOptions"];
+        // Cache policy - support both FileCacheOptions and CacheOptions
+        var cacheOptions = routeNode["FileCacheOptions"] ?? routeNode["CacheOptions"];
         if (cacheOptions != null)
         {
             var ttl = cacheOptions["TtlSeconds"]?.GetValue<int>() ?? 0;
@@ -160,8 +160,8 @@ public class OcelotImportService
             }
         }
 
-        // Generate route key from path
-        var routeKey = GenerateRouteKey(upstreamPath);
+        // Use RouteKey from config if provided, otherwise generate from path
+        var routeKey = routeNode["RouteKey"]?.GetValue<string>() ?? GenerateRouteKey(upstreamPath);
 
         return new RouteModel
         {

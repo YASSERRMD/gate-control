@@ -69,7 +69,12 @@ export default function EnvironmentsPage() {
     setImportResult(null);
 
     try {
-      const config = JSON.parse(jsonText);
+      // Strip JavaScript-style comments from JSON before parsing
+      const cleanJson = jsonText
+        .replace(/\/\/.*$/gm, '')  // Remove single-line comments
+        .replace(/\/\*[\s\S]*?\*\//g, '');  // Remove multi-line comments
+
+      const config = JSON.parse(cleanJson);
       const result = await apiPost<ImportResult>('/import/ocelot', {
         config,
         environmentName: envName || 'Imported'
@@ -83,7 +88,11 @@ export default function EnvironmentsPage() {
         setEnvName('');
       }
     } catch (err: any) {
-      setImportError(err?.message || 'Import failed');
+      if (err?.message?.includes('JSON') || err instanceof SyntaxError) {
+        setImportError('Invalid JSON format. Please check your configuration and remove any comments.');
+      } else {
+        setImportError(err?.message || 'Import failed');
+      }
     } finally {
       setLoading(false);
     }

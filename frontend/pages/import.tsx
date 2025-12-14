@@ -41,15 +41,20 @@ export default function ImportPage() {
         setResult(null);
 
         try {
-            const config = JSON.parse(jsonText);
+            // Strip JavaScript-style comments from JSON before parsing
+            const cleanJson = jsonText
+                .replace(/\/\/.*$/gm, '')  // Remove single-line comments
+                .replace(/\/\*[\s\S]*?\*\//g, '');  // Remove multi-line comments
+
+            const config = JSON.parse(cleanJson);
             const response = await apiPost<ImportResult>('/import/ocelot', {
                 config,
                 environmentName: envName
             });
             setResult(response);
         } catch (err: any) {
-            if (err?.message?.includes('JSON')) {
-                setError('Invalid JSON format. Please check your configuration.');
+            if (err?.message?.includes('JSON') || err instanceof SyntaxError) {
+                setError('Invalid JSON format. Comments have been stripped - please check for other syntax errors.');
             } else {
                 setError(err?.message || 'Import failed');
             }
