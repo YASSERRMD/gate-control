@@ -61,8 +61,8 @@ export default function ServicesPage() {
         <div className="card">
           <h3>New service</h3>
           <form onSubmit={submit}>
-            <label>
-              Environment
+            <div className="form-group">
+              <label>Environment</label>
               <select
                 value={form.environmentId}
                 onChange={(e) => setForm({ ...form, environmentId: e.target.value })}
@@ -71,31 +71,31 @@ export default function ServicesPage() {
                   <option key={env.id} value={env.id}>{env.name}</option>
                 ))}
               </select>
-            </label>
-            <label>
-              Name
+            </div>
+            <div className="form-group">
+              <label>Name</label>
               <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
-            </label>
-            <label>
-              Default Scheme
+            </div>
+            <div className="form-group">
+              <label>Default Scheme</label>
               <select value={form.defaultScheme} onChange={(e) => setForm({ ...form, defaultScheme: e.target.value })}>
                 <option value="https">https</option>
                 <option value="http">http</option>
               </select>
-            </label>
-            <label>
-              Host
+            </div>
+            <div className="form-group">
+              <label>Host</label>
               <input value={form.host} onChange={(e) => setForm({ ...form, host: e.target.value })} placeholder="service.local" required />
-            </label>
-            <label>
-              Port
+            </div>
+            <div className="form-group">
+              <label>Port</label>
               <input type="number" value={form.port} onChange={(e) => setForm({ ...form, port: Number(e.target.value) })} />
-            </label>
-            <label>
-              Tags (comma separated)
+            </div>
+            <div className="form-group">
+              <label>Tags (comma separated)</label>
               <input value={form.tags} onChange={(e) => setForm({ ...form, tags: e.target.value })} />
-            </label>
-            <button type="submit">Save service</button>
+            </div>
+            <button type="submit" className="btn-primary">Save service</button>
           </form>
         </div>
         <div className="card">
@@ -104,7 +104,7 @@ export default function ServicesPage() {
             {services.map((svc) => (
               <li key={svc.id} style={{ marginBottom: '0.75rem' }}>
                 <strong>{svc.name}</strong> ({svc.defaultScheme}) — {svc.hosts[0]?.host}:{svc.hosts[0]?.port}
-                <div style={{ color: '#9ca3af' }}>Env: {svc.environmentId} | Tags: {svc.tags.join(', ') || 'none'}</div>
+                <div style={{ color: '#9ca3af' }}>Env: {svc.environmentId} | Tags: {svc.tags?.join(', ') || 'none'}</div>
               </li>
             ))}
           </ul>

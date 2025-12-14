@@ -43,7 +43,7 @@ export default function AuthenticationPage() {
                                     <td><strong>{policy.name}</strong></td>
                                     <td><span className="badge">{policy.scheme.toUpperCase()}</span></td>
                                     <td>{policy.provider}</td>
-                                    <td>{policy.allowedScopes.join(', ')}</td>
+                                    <td>{policy.allowedScopes?.join(', ') || 'N/A'}</td>
                                     <td>{policy.requireHttps ? '✓ Yes' : '✗ No'}</td>
                                     <td>
                                         <span className={`status-badge ${policy.enabled ? 'success' : 'inactive'}`}>

@@ -43,7 +43,7 @@ export default function CachingPage() {
                                     <td>{policy.ttlSeconds}s</td>
                                     <td><span className="badge">{policy.region}</span></td>
                                     <td>{policy.varyByQueryString ? '✓ Yes' : '✗ No'}</td>
-                                    <td>{policy.varyByHeader.join(', ') || 'None'}</td>
+                                    <td>{policy.varyByHeader?.join(', ') || 'None'}</td>
                                     <td>
                                         <span className={`status-badge ${policy.enabled ? 'success' : 'inactive'}`}>
                                             {policy.enabled ? 'Enabled' : 'Disabled'}
