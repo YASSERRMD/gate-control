@@ -1,45 +1,164 @@
 # Gate Control Platform
 
-A demo stack that pairs a minimal ASP.NET Core backend with a Next.js frontend to manage Ocelot gateway configurations. Use it to explore environment, service, and route definitions, generate Ocelot configs, and track change requests with lightweight observability data.
+A comprehensive Ocelot API Gateway configuration management platform built with ASP.NET Core backend and Next.js frontend. Manage environments, services, routes, and advanced gateway features with a beautiful glassmorphism UI.
 
-## What's in the repo
-- **Backend (`backend/`):** Minimal API exposing CRUD endpoints for environments, services, routes, and change requests, plus Ocelot config generation, validation, publish history, and audit logs. Data is persisted to `data/db.json`.
-- **Frontend (`frontend/`):** Next.js UI that calls the backend API to visualize and edit environments, services, routes, change requests, and observability summaries.
-- **Sample data (`data/db.json`):** Includes a Dev environment, an Orders service, and an example route so the UI renders meaningful content immediately.
+![Gate Control](https://img.shields.io/badge/Ocelot-Gateway%20Manager-667eea?style=for-the-badge)
+![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=for-the-badge&logo=dotnet)
+![Next.js](https://img.shields.io/badge/Next.js-14-000000?style=for-the-badge&logo=next.js)
+![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker)
 
-## Prerequisites
-- .NET 8 SDK
-- Node.js 18+ (Node 20 is included in the devcontainer)
+## ✨ Features
 
-## Run the backend
+### Core Features
+- **Environment Management** - Create and manage multiple deployment environments (Dev, Staging, Production)
+- **Service Registry** - Define downstream services with host configurations and tags
+- **Route Configuration** - Configure upstream/downstream path mappings with HTTP methods
+- **Ocelot Config Generation** - Auto-generate valid `ocelot.json` files from UI configurations
+- **Change Request Workflow** - Track configuration changes with approval workflow
+
+### Security & Policy Management
+- **Authentication Policies** - Configure JWT/OAuth2 bearer authentication with scopes
+- **Rate Limiting** - Define request rate limits with customizable periods and quotas
+- **Caching Policies** - Set up response caching with TTL, regions, and vary-by options
+- **Quality of Service (QoS)** - Configure circuit breakers, timeouts, and retry policies
+- **Load Balancing** - Set up round-robin, least-connection, and weighted algorithms
+
+### Import & Export
+- **Ocelot Config Import** - Import existing `ocelot.json` files directly into the platform
+  - Supports JavaScript-style comments (`//` and `/* */`)
+  - Parses `CacheOptions` and `FileCacheOptions`
+  - Uses custom `RouteKey` if provided
+  - Auto-creates environments and services from config
+  - Supports `ServiceName` for Consul/Eureka service discovery
+
+### User & Access Management
+- **User Management** - Create and manage platform users
+- **Roles & Permissions** - Define roles with granular permissions
+- **Settings** - Configure platform-wide settings
+
+### Observability
+- **Gateway Health** - Monitor gateway health status
+- **Metrics Dashboard** - View request counts, latency, and error rates
+- **Audit Logs** - Track all configuration changes
+
+## 🚀 Quick Start with Docker (Recommended)
+
 ```bash
-dotnet restore backend/GateControl.Api.csproj
-dotnet run --project backend/GateControl.Api.csproj --urls http://localhost:5087
-# Swagger UI available at http://localhost:5087/swagger
+# Clone the repository
+git clone https://github.com/YASSERRMD/gate-control.git
+cd gate-control
+
+# Start with Docker Compose
+docker-compose up --build -d
+
+# Access the application
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:5087
+# Swagger UI: http://localhost:5087/swagger
 ```
 
-## Run the frontend
+## 🛠️ Manual Setup
+
+### Prerequisites
+- .NET 8 SDK
+- Node.js 18+ (Node 20 recommended)
+
+### Run the Backend
+```bash
+cd backend
+dotnet restore
+dotnet run --urls http://localhost:5087
+
+# Swagger UI: http://localhost:5087/swagger
+```
+
+### Run the Frontend
 ```bash
 cd frontend
 npm install
 npm run dev
-# App available at http://localhost:3000
+
+# App: http://localhost:3000
 ```
-Set `NEXT_PUBLIC_API_BASE` if your API runs on a different origin. The default is `http://localhost:5087/api`.
 
-## Key API routes (demo)
-- `GET/POST /api/environments`
-- `GET/POST /api/services`
-- `GET/POST /api/routes`
-- `GET/POST /api/change-requests`
-- `GET /api/environments/{environmentId}/ocelot` to generate an `ocelot.json`-style document
-- `GET /api/environments/{environmentId}/validate` for validation results
-- `POST /api/environments/{environmentId}/publish` to record a publish event
-- `GET /api/observability/overview` for basic metrics
+Set `NEXT_PUBLIC_API_BASE` if your API runs on a different origin. Default is `http://localhost:5087/api`.
 
-## Data persistence
-The JSON data store (`data/db.json`) is updated by the API; edit it directly to reset the demo or pre-seed additional records.
+## 📁 Project Structure
 
-## Notes
-- This repository focuses on the demo experience—authentication, RBAC, and production-ready publishing are not included.
-- The blueprint proposal has been removed in favor of the actual runnable stack documented above.
+```
+gate-control/
+├── backend/                    # ASP.NET Core Minimal API
+│   ├── Models/                 # Data models (Route, Service, Environment, etc.)
+│   ├── Services/               # Business logic (DataStore, OcelotImportService)
+│   └── Program.cs              # API endpoints and configuration
+├── frontend/                   # Next.js 14 Application
+│   ├── components/             # Reusable React components
+│   ├── pages/                  # Next.js pages (routes, services, etc.)
+│   ├── lib/                    # API client and utilities
+│   └── styles/                 # Global CSS with glassmorphism design
+├── data/                       # JSON data store
+│   └── db.json                 # Persistent data file
+├── docs/                       # Documentation
+└── docker-compose.yml          # Docker orchestration
+```
+
+## 🔌 API Endpoints
+
+### Core Resources
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET/POST | `/api/environments` | Manage environments |
+| GET/POST | `/api/services` | Manage services |
+| GET/POST | `/api/routes` | Manage routes |
+| GET/POST | `/api/change-requests` | Manage change requests |
+
+### Ocelot Integration
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/environments/{id}/ocelot` | Generate ocelot.json |
+| GET | `/api/environments/{id}/validate` | Validate configuration |
+| POST | `/api/environments/{id}/publish` | Record publish event |
+| POST | `/api/import/ocelot` | Import Ocelot configuration |
+
+### Security Policies
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET/POST | `/api/authenticationPolicies` | Auth policies |
+| GET/POST | `/api/rateLimitPolicies` | Rate limit rules |
+| GET/POST | `/api/cachingPolicies` | Caching policies |
+| GET/POST | `/api/qosPolicies` | QoS configurations |
+| GET/POST | `/api/loadBalancers` | Load balancer configs |
+
+### User Management
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET/POST | `/api/users` | Manage users |
+| GET/POST | `/api/roles` | Manage roles |
+
+## 🎨 UI Features
+
+- **Glassmorphism Design** - Modern frosted glass aesthetic
+- **Dark Mode** - Full dark mode support with toggle
+- **Responsive Layout** - Works on desktop and tablet
+- **Real-time Validation** - Form validation with helpful error messages
+
+## 📖 Documentation
+
+See [docs/doc.md](docs/doc.md) for detailed usage instructions.
+
+## 📝 Data Persistence
+
+Data is stored in `data/db.json`. Edit this file directly to:
+- Reset demo data
+- Pre-seed additional records
+- Backup/restore configurations
+
+## ⚠️ Notes
+
+- This is a **demo/development platform** - authentication, RBAC, and production-ready security are not included
+- Use in production environments at your own risk
+- Ideal for local development, testing, and configuration prototyping
+
+## 📜 License
+
+MIT License - Feel free to use and modify for your projects.
