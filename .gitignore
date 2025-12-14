@@ -1,0 +1,5 @@
+node_modules
+backend/dist
+frontend/.next
+backend/bin
+backend/obj

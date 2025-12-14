@@ -1,0 +1,44 @@
+{
+  "environments": [
+    {
+      "id": "env-dev",
+      "name": "Dev",
+      "baseUrl": "https://dev.api.local",
+      "discoveryProviderType": "static",
+      "settingsJson": {}
+    }
+  ],
+  "services": [
+    {
+      "id": "svc-gateway",
+      "environmentId": "env-dev",
+      "name": "Orders Service",
+      "defaultScheme": "https",
+      "hosts": [
+        { "host": "orders.internal", "port": 443 }
+      ],
+      "tags": ["orders", "core"],
+      "healthEndpoint": "/health"
+    }
+  ],
+  "routes": [
+    {
+      "id": "route-orders",
+      "environmentId": "env-dev",
+      "routeKey": "orders-v1",
+      "description": "Proxy orders API",
+      "upstreamPathTemplate": "/api/orders/{*everything}",
+      "upstreamMethods": ["GET", "POST", "PUT", "DELETE"],
+      "downstreamPathTemplate": "/orders/{everything}",
+      "downstreamServiceId": "svc-gateway",
+      "priority": 1,
+      "requestIdKey": "X-Correlation-ID",
+      "policies": {
+        "auth": { "scheme": "oidc", "allowedScopes": ["orders.read", "orders.write"] },
+        "rateLimit": { "enableRateLimiting": true, "period": "1m", "limit": 100 },
+        "cache": { "ttlSeconds": 60 }
+      }
+    }
+  ],
+  "changeRequests": []
+}
