@@ -68,7 +68,8 @@ export default function QoSPage() {
                             <div className="stat-label">Trips (24h)</div>
                         </div>
                     </div>
-                    <button className="btn-primary">+ Add New Policy</button>
+                    <button className="btn-primary" onClick={() => alert('Add New QoS Policy form would open here.')}>+ Add New Policy</button>
+                    <button className="btn" onClick={() => alert('Test circuit breaker would start here.')}>Test Circuit Breaker</button>
                 </div>
             </div>
         </Layout>

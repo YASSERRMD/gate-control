@@ -61,7 +61,8 @@ export default function LoadBalancingPage() {
                         <li><strong>Weighted</strong> - Distributes based on assigned weights</li>
                         <li><strong>IP Hash</strong> - Routes based on client IP address</li>
                     </ul>
-                    <button className="btn-primary">+ Add New Load Balancer</button>
+                    <button className="btn-primary" onClick={() => alert('Add New Load Balancer form would open here.')}>+ Add New Load Balancer</button>
+                    <button className="btn" onClick={() => alert('Test load balancing would start here.')}>Test Load Balancing</button>
                 </div>
             </div>
         </Layout>

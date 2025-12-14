@@ -71,7 +71,8 @@ export default function RateLimitingPage() {
                             <div className="stat-label">Requests Within Limits</div>
                         </div>
                     </div>
-                    <button className="btn-primary">+ Add New Policy</button>
+                    <button className="btn-primary" onClick={() => alert('Add New Rate Limiting Policy form would open here.')}>+ Add New Policy</button>
+                    <button className="btn" onClick={() => alert('Test rate limiting would start here.')}>Test Rate Limits</button>
                 </div>
             </div>
         </Layout>

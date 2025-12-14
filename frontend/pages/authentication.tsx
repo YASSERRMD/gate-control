@@ -62,9 +62,9 @@ export default function AuthenticationPage() {
 
                 <div className="card">
                     <h3>Quick Actions</h3>
-                    <button className="btn-primary">+ Add New Policy</button>
-                    <button className="btn">Test Authentication</button>
-                    <button className="btn">View Documentation</button>
+                    <button className="btn-primary" onClick={() => alert('Add New Authentication Policy form would open here.')}>+ Add New Policy</button>
+                    <button className="btn" onClick={() => alert('Test authentication flow would start here.')}>Test Authentication</button>
+                    <button className="btn" onClick={() => window.open('https://ocelot.readthedocs.io/en/latest/features/authentication.html', '_blank')}>View Documentation</button>
                 </div>
             </div>
         </Layout>

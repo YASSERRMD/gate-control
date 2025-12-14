@@ -71,8 +71,8 @@ export default function CachingPage() {
                             <div className="stat-label">Cache Miss Rate</div>
                         </div>
                     </div>
-                    <button className="btn-primary">+ Add New Policy</button>
-                    <button className="btn">Clear All Caches</button>
+                    <button className="btn-primary" onClick={() => alert('Add New Policy form would open here. This is a demo - full CRUD operations can be implemented.')}>+ Add New Policy</button>
+                    <button className="btn" onClick={() => alert('Clear all caches confirmation would appear here.')}>Clear All Caches</button>
                 </div>
             </div>
         </Layout>
