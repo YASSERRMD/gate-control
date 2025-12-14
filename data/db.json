@@ -20,6 +20,13 @@
       "baseUrl": "https://dev.api.local",
       "discoveryProviderType": "static",
       "settingsJson": {}
+    },
+    {
+      "id": "0e07d7146ddf44e490fc0d3969ee0d93",
+      "name": "TestEnv",
+      "baseUrl": "https://test.example.com",
+      "discoveryProviderType": null,
+      "settingsJson": {}
     }
   ],
   "services": [
@@ -108,6 +115,22 @@
         "messaging"
       ],
       "healthEndpoint": "/health"
+    },
+    {
+      "id": "cd77e699dcf7445a99838c8119b8f413",
+      "environmentId": "0e07d7146ddf44e490fc0d3969ee0d93",
+      "name": "Test Service",
+      "defaultScheme": "https",
+      "hosts": [
+        {
+          "host": "test-service",
+          "port": 443
+        }
+      ],
+      "tags": [
+        "imported"
+      ],
+      "healthEndpoint": null
     }
   ],
   "routes": [
@@ -294,6 +317,33 @@
           "ttlSeconds": 30
         }
       }
+    },
+    {
+      "id": "baa1778816fe4a5e84a30872ee92f4cc",
+      "environmentId": "0e07d7146ddf44e490fc0d3969ee0d93",
+      "routeKey": "api-test",
+      "description": "Imported from Ocelot config",
+      "isActive": true,
+      "upstreamPathTemplate": "/api/test/{everything}",
+      "upstreamMethods": [
+        "GET"
+      ],
+      "downstreamPathTemplate": "/api/test/{everything}",
+      "downstreamScheme": "https",
+      "downstreamServiceId": "cd77e699dcf7445a99838c8119b8f413",
+      "downstreamHostAndPorts": [
+        {
+          "host": "test-service",
+          "port": 443
+        }
+      ],
+      "priority": 1,
+      "requestIdKey": null,
+      "policies": {
+        "auth": null,
+        "rateLimit": null,
+        "cache": null
+      }
     }
   ],
   "changeRequests": [
@@ -478,6 +528,42 @@
       "correlationId": "246debdb-98b6-4e4c-8c5f-411989a9f740",
       "beforeJson": null,
       "afterJson": "{\n  \u0022id\u0022: \u0022CR-1024\u0022,\n  \u0022environmentId\u0022: \u0022env-prod\u0022,\n  \u0022title\u0022: \u0022Add rate limiting to /api/orders endpoint\u0022,\n  \u0022description\u0022: \u0022Implement rate limiting to prevent abuse of the orders API endpoint\u0022,\n  \u0022status\u0022: \u0022Published\u0022,\n  \u0022createdBy\u0022: \u0022Alice Johnson\u0022,\n  \u0022createdAt\u0022: \u00222025-12-14T08:30:00Z\u0022,\n  \u0022approvedBy\u0022: null,\n  \u0022approvedAt\u0022: null,\n  \u0022publishedBy\u0022: \u0022demo-user\u0022,\n  \u0022publishedAt\u0022: \u00222025-12-14T10:17:47.7614294Z\u0022,\n  \u0022riskLevel\u0022: \u0022medium\u0022,\n  \u0022rollbackPlan\u0022: null,\n  \u0022justification\u0022: null,\n  \u0022items\u0022: []\n}"
+    },
+    {
+      "id": "fddaaaa0d62e44548bd657e2e5650827",
+      "actor": "system",
+      "action": "EnvironmentCreated",
+      "entityType": "Environment",
+      "entityId": "0e07d7146ddf44e490fc0d3969ee0d93",
+      "timestamp": "2025-12-14T13:00:47.495062Z",
+      "reason": null,
+      "correlationId": "1d9a3e63-b988-4e52-8724-d6156b3fb09d",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u00220e07d7146ddf44e490fc0d3969ee0d93\u0022,\n  \u0022name\u0022: \u0022TestEnv\u0022,\n  \u0022baseUrl\u0022: \u0022https://test.example.com\u0022,\n  \u0022discoveryProviderType\u0022: null,\n  \u0022settingsJson\u0022: {}\n}"
+    },
+    {
+      "id": "50859f8b417d42eca4bdd0e38c8ce28b",
+      "actor": "system",
+      "action": "ServiceCreated",
+      "entityType": "Service",
+      "entityId": "cd77e699dcf7445a99838c8119b8f413",
+      "timestamp": "2025-12-14T13:00:47.5117196Z",
+      "reason": null,
+      "correlationId": "8329784b-ed5e-4fb7-9eac-0828cea0f311",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u0022cd77e699dcf7445a99838c8119b8f413\u0022,\n  \u0022environmentId\u0022: \u00220e07d7146ddf44e490fc0d3969ee0d93\u0022,\n  \u0022name\u0022: \u0022Test Service\u0022,\n  \u0022defaultScheme\u0022: \u0022https\u0022,\n  \u0022hosts\u0022: [\n    {\n      \u0022host\u0022: \u0022test-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022tags\u0022: [\n    \u0022imported\u0022\n  ],\n  \u0022healthEndpoint\u0022: null\n}"
+    },
+    {
+      "id": "1eedb1562a1d4524bd3acf6dd7bc602f",
+      "actor": "system",
+      "action": "RouteCreated",
+      "entityType": "Route",
+      "entityId": "baa1778816fe4a5e84a30872ee92f4cc",
+      "timestamp": "2025-12-14T13:00:47.5133737Z",
+      "reason": null,
+      "correlationId": "bb3d9c30-aaf5-430f-a06f-5d710977a617",
+      "beforeJson": null,
+      "afterJson": "{\n  \u0022id\u0022: \u0022baa1778816fe4a5e84a30872ee92f4cc\u0022,\n  \u0022environmentId\u0022: \u00220e07d7146ddf44e490fc0d3969ee0d93\u0022,\n  \u0022routeKey\u0022: \u0022api-test\u0022,\n  \u0022description\u0022: \u0022Imported from Ocelot config\u0022,\n  \u0022isActive\u0022: true,\n  \u0022upstreamPathTemplate\u0022: \u0022/api/test/{everything}\u0022,\n  \u0022upstreamMethods\u0022: [\n    \u0022GET\u0022\n  ],\n  \u0022downstreamPathTemplate\u0022: \u0022/api/test/{everything}\u0022,\n  \u0022downstreamScheme\u0022: \u0022https\u0022,\n  \u0022downstreamServiceId\u0022: \u0022cd77e699dcf7445a99838c8119b8f413\u0022,\n  \u0022downstreamHostAndPorts\u0022: [\n    {\n      \u0022host\u0022: \u0022test-service\u0022,\n      \u0022port\u0022: 443\n    }\n  ],\n  \u0022priority\u0022: 1,\n  \u0022requestIdKey\u0022: null,\n  \u0022policies\u0022: {\n    \u0022auth\u0022: null,\n    \u0022rateLimit\u0022: null,\n    \u0022cache\u0022: null\n  }\n}"
     }
   ],
   "authenticationPolicies": [
