@@ -28,6 +28,7 @@ builder.Services.AddSingleton<OcelotGenerator>();
 builder.Services.AddSingleton<ValidationService>();
 builder.Services.AddSingleton<PublisherService>();
 builder.Services.AddSingleton<ObservabilityService>();
+builder.Services.AddSingleton<OcelotImportService>();
 
 var app = builder.Build();
 
@@ -172,6 +173,22 @@ app.MapGet("/api/audit-logs", (DataStore store) => Results.Ok(store.AuditLogs.Or
 
 app.MapGet("/api/observability/overview", (ObservabilityService observability) => Results.Ok(observability.Overview()))
     .WithTags("Observability");
+
+// Import Endpoints
+app.MapPost("/api/import/ocelot", async (HttpContext ctx, OcelotImportService importService) => {
+    var request = await ctx.Request.ReadFromJsonAsync<OcelotImportRequest>();
+    if (request?.Config == null) return Results.BadRequest("Missing 'config' field with Ocelot JSON");
+    
+    try
+    {
+        var result = importService.Import(request.Config, request.EnvironmentName ?? "Imported");
+        return Results.Ok(result);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+}).WithTags("Import");
 
 // Advanced Features Endpoints
 app.MapGet("/api/authenticationPolicies", (DataStore store) => Results.Ok(store.AuthenticationPolicies))

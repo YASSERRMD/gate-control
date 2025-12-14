@@ -572,6 +572,12 @@
       "varyByQueryString": false,
       "varyByHeader": [],
       "enabled": true
+    },
+    {
+      "name": "Test Cache",
+      "ttlSeconds": 300,
+      "region": "default",
+      "id": "cache-1da7a69d"
     }
   ],
   "qosPolicies": [
